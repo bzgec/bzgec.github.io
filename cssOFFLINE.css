@@ -1,0 +1,135 @@
+body {
+	background: #36393e;
+	color: #bfbfbf;	/* writing */
+}
+.bg-nav {
+	background-color: #333;
+}
+input[type=number] {
+	text-align: center;
+	background-color: #818181;
+	width: 40px;
+	height: 20px;
+}
+#quotationDiv {
+	position: absolute;
+	top: 305px;
+	right: 0;
+	width: 300px;
+	height: auto;
+	/*background-color: #f3888c;*/
+	padding: 15px;
+	z-index: -100;
+	background-color: #333;
+	border-radius: 15px 40px 30px;
+}
+#bottomDiv {	/* footer */
+	z-index: 300;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	height: auto;
+	background-color: #333;
+	min-width: 600px;
+	text-align: center;
+}
+#cmdDiv {	/* where type commands */
+	z-index: 1;
+	position: fixed;
+	bottom: 22px;
+	left: 50%;
+}
+#helpDivText {	/* where help text is shown */
+	display: none;
+}
+#restartESPDiv {
+	z-index: 2;
+	position: fixed;
+	bottom: 20px;
+	right: 0;
+}
+#requestESPDiv {
+	z-index: 2;
+	position: fixed;
+	bottom: 20px;
+	right: 102px;
+}
+/*div.refreshDiv {
+	position: relative;
+	width: 70px;
+	left: 440px;
+	top: 0px;
+}
+div.liveTime {
+	position: relative;
+	width: 60px;
+	left: 520px;
+	top: -19px;
+}
+div.helpButtonDiv {
+	position: relative;
+	width: 60px;
+	/*left: 900px;*/
+	/*right: 30px;
+	top: 14px;
+}*/
+
+.show {display:block;}
+
+.toggle {
+	display: none;
+}
+
+/* for slider button */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 22px;
+}
+
+.switch input {display:none;}
+
+.slider.round {
+  position: absolute;
+  cursor: pointer;
+  border-radius: 34px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #818181;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+.slider.round:before {
+  position: absolute;
+  content: "";
+  border-radius: 50%;
+  height: 14px;
+  width: 14px;
+  left: 4.9px;
+  bottom: 4px;
+  /*background-color: #ff1e41;*/
+  background-color: white;
+  -webkit-transition: .3s;
+  transition: .3s;
+}
+
+input:checked + .slider {
+  background-color: #0ebe00;
+}
+/*
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}*/
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(20px);
+  -ms-transform: translateX(20px);
+  transform: translateX(20px);
+  /*background-color: #1eff1e;*/
+}
