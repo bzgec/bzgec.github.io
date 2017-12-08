@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<link rel="icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH4QcXCTkus6FqSwAAA6JJREFUSMet1luMXWMYBuBnHWbvPbNnpjpNtbTpQRuSOsShlZKKkArBhaSIuHBDiAtu3DgEaUIEFRcEiQhxjCEh6kJocKMap0hIUa22RGUyx85hn9ba63fRXWnoTEt8V//6v/zvu773/db3r2jjoEexA7H/NwqsT/EF3tl2/f+LvnEQxOlsySgV5dN6Rr8Vyn3q1ZU0hkkqwmd3HD9RfDRwCLnFScX91aXezxouT6tuxLOTu1156Wu6NjwjhYEz5iZIZ9mviMwvMvW87pK8bk3R9HT3YuflDZum9nqod7nVZ9/txyL3+rkPqKVVzR+eY//WWQguGyQcBuc0wRWCi0ObxqhFtSFL+lboT8rmZ9NOSbttirv0pz02ZNPi8Z22LFzry9IJ/PzKUSTqgEe4ELdgaVK2LO0mTjSi2C5BUjTVk7JxVMsD8qRsJim5tnXQPfveU2435vagH/uxOSl5ut1QTO0j7TFTWWB7KOxtt9Tzuu34RPB9UvZqkRvJJq3rXWrJsUzuFuktWi6c2OX54a+trg8RCn2hsC60NYuWZhTZm037Jpvxa3WZ5dmU3rymL0oNHMvkRhRJ8pp0co+17YaoupRsRmnsO48kFXFjRKnnZC9P/GBJu2FB/Q9XH9ylp2jL06plRearOQlCECUVo+X5vu1d7oLSPCZ2MvGT3lDQvYikZH1XH5hoTSr1nETcpdWcMBYnc1eQCxqrbvD1Ty96sDTP5iixsn+1he2mOK+JkgrzTpVHsXrgE7yJp7JpSXPUaFKe24M2in3v6p6s+yiKXSm4M+329sK1tvevOtRuRSYPPC7Ygrho6WuOy0OQhTALQWcWBUxjw8KTDWACW0VuFTtQOZGBM/86twYrQtvmxohKu+GAYPhYXQS/YTeuwTloohAsSEqkVbW4y72CD/BYKKya3EM25cP9W43OSXDERN2LrbgID+MlnI8x3BclnkRbZFHroLg14XexV1fdwC9vzW3yXyQbBw3jBdzWkWoSb+ODUCgwjqw5Ii0y205cZ2dt6J9yzHrJdIhmOpXsx80OXUy34y48GHLd9WHNdtM7Qzu0T7/knzizTdMjo4ZlnXUL1+FiKDLymrHQtjMu8cZV/6KCIyJCX+dlpvHxkZko5u+t+W8JAnpx+Bv9FFMcAo8SyVxKHI9EuUOtepjge3yOs6JYiFPjcSqKkv9OMIInUO88j+Mm9EAIQgj+MItM0XH+thR/yxcd6Q57EAuio5xZ/yd6EnNE9vVDdAAAACV0RVh0ZGF0ZTpjcmVhdGUAMjAxNy0wNy0yM1QwOTo1Nzo0Ni0wNDowMALVPKgAAAAldEVYdGRhdGU6bW9kaWZ5ADIwMTctMDctMjNUMDk6NTc6NDYtMDQ6MDBziIQUAAAAAElFTkSuQmCC">		<!-- icon shown on tab -->
+	<meta charset='utf=8'>		<!-- Encoding za sumnike? -->
+	<title>Main page</title>		<!-- Na tabu kaze ime taba -->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+	<link rel='stylesheet' tyle='text/css' href='./cssOFFLINE.css'>		<!-- calling external css file -->
+
+</head>
+
+<body>
+
+
+
+	<div class="container">
+		<div id="quotationDiv">
+	</div>
+
+		<div id='cmdDiv' class='toggle'>
+			<input type='text' id='cmd' list="workers" name="worker">
+			<datalist id="workers">
+				<option value="Centrala">
+				<option value="Worker_1">
+				<option value="Worker_2">
+				<option value="Worker_DHT22_1">
+				<option value="Worker_DHT22_2">
+			</datalist>
+			<input type='button' id='sendCommandButton' value='Send' class='button'>
+		</div>
+
+
+		<div id="main">
+			<br>
+			<div class="row justify-content-end">
+				<div class="col col-sm-4">
+						<input type="button" id='refreshButton' value="Refresh" class="btn btn-secondary btn-sm">
+						<span id="apiLiveTime">Hmmmm</span>
+				</div>
+
+
+				<div class="col col-sm-1">
+						<input type="button" id='helpButton' value="Help" class="btn btn-secondary btn-sm">
+				</div>
+			</div>
+
+			<table>
+				<!-- First row -->
+				<tr class="select">
+					<!--<td class="empty">
+					</td>-->
+					<td>
+						<!--<input id='Worker_1_1' type='button' value='OFF' class='Worker_1 switch'>-->
+						<label class="switch">
+							<input type="checkbox" id='Worker_1_1' class="sliderCheckbox Worker_1">
+							<span class="slider round" ></span>
+						</label>
+					</td>
+					<td>
+						<input class="toggle" type="checkbox" id="Worker_1_1LED_BUILTIN">
+					</td>
+					<td>
+						<span class="toggle" style="display:inline;">Prototype 1</span> <!-- this one is normally shown, if toggle is acctivated the one below is showed -->
+						<span class="toggle">Worker_1_1</span>
+					</td>
+					<td>
+						<!-- CONVERTED IMAGE TO BASE64 -->
+						<img id='iconWorker_1_1' class='icon' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAACcUlEQVQ4jWWTS0sbURiGn7md8RInidUWg8R0J7hQ3LTLroT0D7gspZVuuhNcSKHdFDdFurGCpZR21X/QnStF3bixMRZFUWxSEzu5mPskc7o4xgT94GVmzpn3/Z7zwdG4Vecw2j809MKOx58a0egDCfinp3+r6+s/y6nU5yikbntuKheLvWutrJSl60rpulKm01IeH0uZSEi5uSm9xcWCG4ksdHu09kthevqHs7o6SyQC9TrUap1nrQbVKpTLyLMzimtra6HDw1cAJkAuGn3rLC3NYtuQTkOj0VF3QKmE1mwSnJmZy2Wzv8P5/LJ2DGPR+flfRjweoNnkRp6nVK8rc6UCpRJcXUGhgLe3l/mzszNphkOhl8bkZICLC/D9jtpBbYpSSalQANfFEuL+gBDPTXti4gm53N2J+j60Woogn1fmWg2KRfWdzSIM45Gp2/YQmQwYBpgm6LoSKHTX7QyzXFZBlQr4ProQI2YrmazT1wexGNg2WBYIobo3mxAIdNY1Ta23jyWEZvpwQSajNoaHwXGgr0+pv1+RNBqK0Pc7g7VtpGWlzIaU2wgxg2UpdMtS5mAQentBStUNFNG1GSGoe962XqpWv3me9w8h1EZPj8J2HAiHlRxH0VwbsSzqnpeuSPldHysUjsvF4kfZHqJldUJCIRUQCCgaIcA0kbouy8XicvTyMqUDhJLJ98Wzsy9S09RZ2yGOAwMDqrNpgmEgNU1epdOf7h0cfADQry+EDG5tzeX39994uVwWUGfvFlB33YtcIrEQ3Nh4fecytetkairmjI8/sx4+fKwPDo7g+9J33bR3crJV3d39Onp0dN79/3/vHkuXW7Zc2wAAAABJRU5ErkJggg==' alt='RedIcon'>
+					</td>
+					<td>
+						Timer:
+					</td>
+					<td class="inputTimer">
+						<input type="number" id='countDownWorker_1_1hr' value="0" min="0">
+						hr
+					</td>
+					<td class="inputTimer">
+						<input type="number" id='countDownWorker_1_1min' value="0" min="0">
+						min
+					</td>
+					<td class="inputTimer">
+						<input type="number" id='countDownWorker_1_1sec' value="0" min="0">
+						sec
+					</td>
+					<td id='countDownWorker_1_1Running'>
+					</td>
+				</tr>
+
+				<!-- Second row -->
+				<tr class="select">
+					<!--<td class="empty">
+					</td>-->
+					<td>
+						<!--<input id='Worker_2_1' type='button' value='OFF' class='Worker_2 switch'>-->
+						<label class="switch">
+							<input type="checkbox" id='Worker_2_1' class="sliderCheckbox Worker_2">
+							<span class="slider round"></span>
+						</label>
+					</td>
+					<td>
+						<input class="toggle" type="checkbox" id="Worker_2_1LED_BUILTIN">
+					</td>
+					<td>
+						<span class="toggle" style="display:inline;">Worker_2_1</span> <!-- this one is normally shown, if toggle is acctivated the one below is showed -->
+						<span class="toggle">Worker_2_1</span>
+					</td>
+					<td>
+						<!-- CONVERTED IMAGE TO BASE64 -->
+						<img id='iconWorker_2_1' class='icon' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAACcUlEQVQ4jWWTS0sbURiGn7md8RInidUWg8R0J7hQ3LTLroT0D7gspZVuuhNcSKHdFDdFurGCpZR21X/QnStF3bixMRZFUWxSEzu5mPskc7o4xgT94GVmzpn3/Z7zwdG4Vecw2j809MKOx58a0egDCfinp3+r6+s/y6nU5yikbntuKheLvWutrJSl60rpulKm01IeH0uZSEi5uSm9xcWCG4ksdHu09kthevqHs7o6SyQC9TrUap1nrQbVKpTLyLMzimtra6HDw1cAJkAuGn3rLC3NYtuQTkOj0VF3QKmE1mwSnJmZy2Wzv8P5/LJ2DGPR+flfRjweoNnkRp6nVK8rc6UCpRJcXUGhgLe3l/mzszNphkOhl8bkZICLC/D9jtpBbYpSSalQANfFEuL+gBDPTXti4gm53N2J+j60Woogn1fmWg2KRfWdzSIM45Gp2/YQmQwYBpgm6LoSKHTX7QyzXFZBlQr4ProQI2YrmazT1wexGNg2WBYIobo3mxAIdNY1Ta23jyWEZvpwQSajNoaHwXGgr0+pv1+RNBqK0Pc7g7VtpGWlzIaU2wgxg2UpdMtS5mAQentBStUNFNG1GSGoe962XqpWv3me9w8h1EZPj8J2HAiHlRxH0VwbsSzqnpeuSPldHysUjsvF4kfZHqJldUJCIRUQCCgaIcA0kbouy8XicvTyMqUDhJLJ98Wzsy9S09RZ2yGOAwMDqrNpgmEgNU1epdOf7h0cfADQry+EDG5tzeX39994uVwWUGfvFlB33YtcIrEQ3Nh4fecytetkairmjI8/sx4+fKwPDo7g+9J33bR3crJV3d39Onp0dN79/3/vHkuXW7Zc2wAAAABJRU5ErkJggg==' alt='RedIcon'>
+					</td>
+					<td>
+						Timer:
+					</td>
+					<td class="inputTimer">
+						<input type="number" id='countDownWorker_2_1hr' value="0" min="0">
+						hr
+					</td>
+					<td class="inputTimer">
+						<input type="number" id='countDownWorker_2_1min' value="0" min="0">
+						min
+					</td>
+					<td class="inputTimer">
+						<input type="number" id='countDownWorker_2_1sec' value="0" min="0">
+						sec
+					</td>
+					<td id='countDownWorker_2_1Running'>
+					</td>
+				</tr>
+
+				<!-- Third row -->
+				<tr class="select">
+					<!--<td class="empty">
+					</td>-->
+					<td>
+						<!--<input id='Worker_2_2' type='button' value='OFF' class='Worker_2 switch'>-->
+						<label class="switch">
+							<input type="checkbox" id='Worker_2_2' class="sliderCheckbox Worker_2">
+							<span class="slider round"></span>
+						</label>
+					</td>
+					<td>
+						<input class="toggle" type="checkbox" id="Worker_2_2LED_BUILTIN">
+					</td>
+					<td>
+						<span class="toggle" style="display:inline;">Worker_2_2</span> <!-- this one is normally shown, if toggle is acctivated the one below is showed -->
+						<span class="toggle">Worker_2_2</span>
+					</td>
+					<td>
+						<!-- CONVERTED IMAGE TO BASE64 -->
+						<img id='iconWorker_2_2' class='icon' src='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAACcUlEQVQ4jWWTS0sbURiGn7md8RInidUWg8R0J7hQ3LTLroT0D7gspZVuuhNcSKHdFDdFurGCpZR21X/QnStF3bixMRZFUWxSEzu5mPskc7o4xgT94GVmzpn3/Z7zwdG4Vecw2j809MKOx58a0egDCfinp3+r6+s/y6nU5yikbntuKheLvWutrJSl60rpulKm01IeH0uZSEi5uSm9xcWCG4ksdHu09kthevqHs7o6SyQC9TrUap1nrQbVKpTLyLMzimtra6HDw1cAJkAuGn3rLC3NYtuQTkOj0VF3QKmE1mwSnJmZy2Wzv8P5/LJ2DGPR+flfRjweoNnkRp6nVK8rc6UCpRJcXUGhgLe3l/mzszNphkOhl8bkZICLC/D9jtpBbYpSSalQANfFEuL+gBDPTXti4gm53N2J+j60Woogn1fmWg2KRfWdzSIM45Gp2/YQmQwYBpgm6LoSKHTX7QyzXFZBlQr4ProQI2YrmazT1wexGNg2WBYIobo3mxAIdNY1Ta23jyWEZvpwQSajNoaHwXGgr0+pv1+RNBqK0Pc7g7VtpGWlzIaU2wgxg2UpdMtS5mAQentBStUNFNG1GSGoe962XqpWv3me9w8h1EZPj8J2HAiHlRxH0VwbsSzqnpeuSPldHysUjsvF4kfZHqJldUJCIRUQCCgaIcA0kbouy8XicvTyMqUDhJLJ98Wzsy9S09RZ2yGOAwMDqrNpgmEgNU1epdOf7h0cfADQry+EDG5tzeX39994uVwWUGfvFlB33YtcIrEQ3Nh4fecytetkairmjI8/sx4+fKwPDo7g+9J33bR3crJV3d39Onp0dN79/3/vHkuXW7Zc2wAAAABJRU5ErkJggg==' alt='RedIcon'>
+					</td>
+					<td>
+						Timer:
+					</td>
+					<td class="inputTimer">
+						<input type="number" id='countDownWorker_2_2hr' value="0" min="0">
+						hr
+					</td>
+					<td class="inputTimer">
+						<input type="number" id='countDownWorker_2_2min' value="0" min="0">
+						min
+					</td>
+					<td class="inputTimer">
+						<input type="number" id='countDownWorker_2_2sec' value="0" min="0">
+						sec
+					</td>
+					<td id='countDownWorker_2_2Running'>
+					</td>
+				</tr>
+			</table>
+
+			</br>
+
+			<table>
+				<tr class='api'>
+					<td class='api'>
+						Petrovce:
+						<span id="apiVremePetrovce">Hmmmm</span>
+					</td>
+					<td class='api'>
+						RealFeel:
+						<span id="apiVremePetrovceRealFeel">Hmmmm</span>
+					</td>
+				</tr>
+				<tr class='api'>
+					<td class='api'>
+						Ljubljana:
+						<span id="apiVremeLjubljana">Hmmmm</span>
+					</td>
+					<td class='api'>
+						RealFeel:
+						<span id="apiVremeLjubljanaRealFeel">Hmmmm</span>
+					</td>
+				</tr>
+				<tr class='api'>
+					<td class='api'>
+						Sunrise:
+						<span id="apiSunrise">Hmmmm</span>
+					</td>
+					<td class='api'>
+						Sunset:
+						<span id="apiSunset">Hmmmm</span>
+					</td>
+				</tr>
+				<tr class='api'>
+					<td class='api'>
+						Pressure:
+						<span id="apiPressure">Hmmmm</span>
+					</td>
+				</tr>
+			</table>
+
+			<table>
+				<tr>
+					<td>
+						<span class="toggle" style="display:inline;"><b>Tester1: </b></span> <!-- this one is normally shown, if toggle is acctivated the one below is showed -->
+						<span class="toggle"><b>Worker_DHT22_1</b></span>
+					</td>
+					<td class="DHT22">
+						Temperature:
+						<span id="Worker_DHT22_1_temperature">Hmmmm</span>
+					</td>
+					<td class="DHT22">
+						Humidity:
+						<span id="Worker_DHT22_1_humidity">Hmmmm</span>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<span class="toggle" style="display:inline;"><b>Urbanova soba: </b></span> <!-- this one is normally shown, if toggle is acctivated the one below is showed -->
+						<span class="toggle"><b>Worker_DHT22_2</b></span>
+					</td>
+					<td class="DHT22">
+						Temperature:
+						<span id="Worker_DHT22_2_temperature">Hmmmm</span>
+					</td>
+					<td class="DHT22">
+						Humidity:
+						<span id="Worker_DHT22_2_humidity">Hmmmm</span>
+					</td>
+				</tr>
+			</table>
+
+			<p>Links:</p>
+			<ul>
+				<li>
+					<a class="links" href="https://drive.google.com/open?id=10B484HjrezabZ23z2bcb8jariA1IGc_BeoRtoQuJuJs" target="_blank">dataLogs Petrovce
+					</a>
+				</li>
+				<li>
+					<a class="links" href="https://drive.google.com/open?id=1vH1Tm51rgNzmf2-j7sOe1mBwqfMb0eP-y50VIZP20PQ" target="_blank">dataLogs Ljubljana
+					</a>
+				</li>
+			</ul>
+
+			</br>
+
+			<table id="workersInfo" class='toggle'> <!-- all workersInfo will be addad here-->
+			</table>
+
+			<div id='dataLogDiv' class='toggle'>
+				</br>
+				<p>
+					<span id="Worker_DHT22_1_dataLog"></span>
+				</p>
+				<p>
+					<span id="Worker_DHT22_2_dataLog"></span>
+				</p>
+				<table id="workersIntervals">
+				</table>
+			</div>
+
+			<div id='helpDivText'>
+				<br>
+				<h2>Help:</h2>
+				If timer is running, led is red and button shows off, it means that the change on microcontroller will be made when timer stops running. It shows the change that is going to happen after timer stops running.
+				<br>
+				<p class='toggle'>
+					<b>Worker_DHT22_x:</b><br/>
+						<i>logData</i> -> adds another log to existing dataLog.json file //dataLog("logData")<br/>
+						<i>checkDataLog</i> -> checks if dataLog.json file is written correctly and if not, it resets file //dataLog("checkDataLog")<br/>
+						<i>resetDataLog</i> -> resets dataLog.json file //dataLog("resetDataLog")<br/>
+						<i>updateDHTFile</i> -> reads temperature and humidity and saves it into DHT22.json file //updateDHTFile()<br/>
+						<i>intervalDHT:x</i> -> changes intervalDHT variable, function updateDHTFile() is now called every x seconds (3s min, 255s max)<br/>
+						<i>intervalDataLog:x</i> -> changes intervalDataLog variable, function dataLog("logData") is now called every x hours<br/>
+						<i>sendIntervals -> </i>sends millis for each interval variable <br/>
+				</p>
+			</div>
+
+			<div id="test"></div>
+			<br/><br/><br/>
+		</div> <!-- End of main div -->
+	</div>
+
+	<div id="restartESPDiv" class="btn-group toggle" role="group">
+		<div class="btn-group btn-group-sm" role="group">
+			<button id="btnGroupDrop1" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				RequestESP
+			</button>
+			<div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+				<button type="button" class="btn btn-secondary btn-sm requestESP" id='requestWorkersUpTime'>WorkersInfo</button>
+				<button type="button" class="btn btn-secondary btn-sm requestESP" id='requestDataLog'>DataLog</button>	    </div>
+		</div>
+	  <div class="btn-group btn-group-sm" role="group">
+	    <button id="btnGroupDrop2" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	      RestartESP
+	    </button>
+	    <div class="dropdown-menu" aria-labelledby="btnGroupDrop2">
+				<button type="button" class="btn btn-secondary btn-sm restartESP" id="RestartAll">All</button>
+				<button type="button" class="btn btn-secondary btn-sm restartESP" id="RestartCentrala">RestartCentralaESP</button>
+				<button type="button" class="btn btn-secondary btn-sm restartESP" id="RestartWorker_1">Worker_1</button>
+				<button type="button" class="btn btn-secondary btn-sm restartESP" id="RestartWorker_2">Worker_2</button>
+				<button type="button" class="btn btn-secondary btn-sm restartESP" id="RestartWorker_DHT22_1">Worker_DHT22_1</button>
+				<button type="button" class="btn btn-secondary btn-sm restartESP" id="RestartWorker_DHT22_2">Worker_DHT22_2</button>
+	    </div>
+	  </div>
+
+	</div>
+
+	<!--<div id="restartESPDiv" class="dropdown toggle">
+		<button onclick="dropdownRestartESP()" class="dropbtnRestartESP">RestartESP</button>
+			<div id="dropdownRestartESP" class="dropdown-contentRestartESP">
+			<button type="button" class="btn restartESP" id="RestartAll">All</button>
+			<button type="button" class="btn restartESP" id="RestartCentrala">RestartCentralaESP</button>
+			<button type="button" class="btn restartESP" id="RestartWorker_1">Worker_1</button>
+			<button type="button" class="btn restartESP" id="RestartWorker_2">Worker_2</button>
+			<button type="button" class="btn restartESP" id="RestartWorker_DHT22_1">Worker_DHT22_1</button>
+			<button type="button" class="btn restartESP" id="RestartWorker_DHT22_2">Worker_DHT22_2</button>
+			<!--<button type="button" class="restartESP" id="RestartWorker_3">Worker_3</button>-->
+		<!--	<input type="text" placeholder="Search..." id="myInput" onkeyup="dropdownFilterRestartESP()">
+		</div>
+	</div>
+
+	<div id="requestESPDiv" class="dropdown toggle">
+		<button onclick="dropdownRequestESP()" class="dropbtnRequestESP">RequestESP</button>
+			<div id="dropdownRequestESP" class="dropdown-contentRequestESP">
+			<button type="button" class="btn requestESP" id='requestWorkersUpTime'>WorkersInfo</button>
+			<button type="button" class="btn requestESP" id='requestDataLog'>DataLog</button>
+		</div>
+	</div>-->
+
+	<footer id="bottomDiv" class="footer">
+		<div  class="container">
+			<div id="upTime" class="text-center">Centrala/Server upTime: hh:mm:ss, Stations connected: n, FreeHeap: n</div>
+		</div>
+	</footer>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!--	<script src='./jqueryLibrary.js'></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+		<script src='./quotationsOFFLINE.js'></script>
+		<script src='./APIs.js'></script>	<!-- calling external file where APIs are saved (jquery file) -->
+		<script src='./jsOFFLINE.js'></script>	<!-- calling external javaScript/jquery file -->
+</body>
+
+</html>
