@@ -1,0 +1,20 @@
+html {
+	width: 100%;
+}
+body {
+	background: #36393e;
+	color: #bfbfbf;	/* writing */
+	font-size:15px;
+}
+.bg-nav {
+	background-color: #2C3034;
+}
+.cursor-pointer {
+	cursor: pointer;
+}
+.cursor-default {
+	cursor: default;
+}
+.hide {
+	display: none;
+}
