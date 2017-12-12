@@ -11,7 +11,11 @@
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
 	<link rel='stylesheet' tyle='text/css' href='./css.css'>		<!-- calling external css file -->
-
+	<style type="text/css">
+		#quotations {
+			min-width: 350px;
+		}
+	</style>
 </head>
 
 <body>
@@ -51,25 +55,55 @@
 
 	<div class="container">
 		<br>
-		<p>
-			This site is dedicated to my web projects, this is just begining. I still do not know what will go here, to main page.
-			<ul>
-				<li>
-					Pomodoro timer: I made it for "better" studying and for information about it.
-				</li>
-				<li>
-					Sudoku: modified project from my collage class.
-				</li>
-			</ul> 
-		</p>
+		<div class="row">
+			<div class="col">
+				<p>
+					This site is dedicated to my web projects, this is just begining. I still do not know what will go here, to main page.
+					<ul>
+						<li>
+							Pomodoro timer: I made it for "better" studying and for information about it.
+						</li>
+						<li>
+							Sudoku: modified project from my collage class.
+						</li>
+					</ul> 
+				</p>
+			</div>
+			<div id='quotations' class="col col-4 text-sm">
+				<div class="card bg-secondary ">
+					<div class="card-header">
+						Quote
+					</div>
+				<div class="card-body">
+					<blockquote class="blockquote mb-0">
+						<small><p id="quotationP"></p></small>
+						<footer class="blockquote-footer text-right" style="color: #BFBFBF"><cite id='quotationCite'></cite></footer>
+					</blockquote>
+				</div>
+			</div>
+			<div class="w-100 d-none d-md-block"></div>	<!-- Force next columns to break to new line at md breakpoint and up -->
+			</div>
+		</div>
+		<br>
+		
+		
 	</div>
 
 
+	
+	<script src="./quotations.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 	<!--	<script src='./jqueryLibrary.js'></script>-->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
-
+	<script type="text/javascript">
+		var randomPick = Math.floor(Math.random()*quotations.length);
+		if (randomPick % 2 == 1) {	// if it is not even number it makes one, because on even numbers are saved quotations and on odd are authors
+			randomPick--;
+		}
+		document.getElementById('quotationP').innerHTML = quotations[randomPick][0];
+		document.getElementById('quotationCite').innerHTML = quotations[randomPick + 1][0];
+	</script>
 </body>
 
 </html>
