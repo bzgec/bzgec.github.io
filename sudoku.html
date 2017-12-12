@@ -28,10 +28,21 @@
 		.hideWhen {
 			display: none;
 		}
-		@media(min-width: 800px) {
+		@media(min-width: 600px) {
 			.hideWhen {
 				display: block;
 			}
+		}
+		.spacing {
+			margin-left: 8px;
+		}
+		input[type="button"].separate:nth-child(2n) {
+			border-left: collapse;
+			border-left-color: #313338;
+		}
+		input[type="button"].separate:nth-child(2n+1) {
+			border-right: collapse;
+			border-right-color: #313338;
 		}
 		/*#helpMode{position: absolute; bottom: 60px; right:100px;}
 		#buttons{position: absolute; top:30px; left:100px;}*/
@@ -77,8 +88,33 @@
 			</div>
 		</div>
 
-		<div class="row justify-content-center">
-			<div class="col col-1 col-md-2 col-lg-3 hideWhen">
+		<div class="row  justify-content-center">
+			<div class="col col-sm-1 col-md-2 col-lg-3 hideWhen">
+			</div>
+			<div class="col make-col">
+				<div class="btn-toolbar spacing" role="toolbar" aria-label="Toolbar with button groups">
+					<div class="btn-group mx-auto" role="group" aria-label="first grup">
+						<input type="button" id='drawSudoku' value="Draw Sudoku" class="btn btn-sm btn-secondary cursor-pointer">
+					</div>	
+
+					<div class="btn-group spacing mx-auto" role="group" aria-label="second grup">
+						<input type="button" id='resetSudoku' value="Reset" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide separate">
+						<input type="button" id='checkSudoku' value="Check" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide separate">
+					</div>	
+
+					<div class="btn-group spacing mx-auto" role="group" aria-label="third grup">
+						<input type="button" id='helpMode' value="Helping Mode" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide">
+					</div>
+				</div>
+			</div>
+			<div class="col col-sm-1 col-md-2 col-lg-3 hideWhen">
+			</div>
+
+				
+		</div>
+
+				
+			<!--<div class="col col-1 col-md-2 col-lg-3 hideWhen">
 			</div>
 			<div class="col col-4 col-md-2">
 				<input type="button" id='drawSudoku' value="Draw Sudoku" class="btn btn-sm btn-secondary cursor-pointer">
@@ -93,9 +129,10 @@
 				<input type="button" id='helpMode' value="Helping Mode" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide">
 			</div>
 			<div class="col col-1 col-md-2 col-lg-3 hideWhen">
-			</div>
-		</div>
+			</div>-->
 
+			
+		
 		<br>
 
 		<div class="row">
