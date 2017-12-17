@@ -1,1 +1,1 @@
-Link to the web site: https://bzgec.github.io
+Link to the Website: https://bzgec.github.io
