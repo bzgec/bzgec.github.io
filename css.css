@@ -42,3 +42,9 @@ input[type=text] {
 	border: 1px;
 	border-radius: 2px;
 }
+table.table-striped-myVersion tr:nth-child(2n) {
+	background-color: #323539;
+}
+table.table-striped-myVersion tr:nth-child(2n + 1) {
+	background-color: #212529;
+}
