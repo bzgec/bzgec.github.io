@@ -55,7 +55,7 @@ function drawPlayerNamesTable () {
 	numberOfPlayers = document.getElementById('numberOfPlayers').value;
 	document.getElementById('addingNames').style.display = "block";
 	//var table = '<table class="table table-sm" id="gameTable"><tr class="top-border bottom-border">';	//<th scope="col">Name:</th>';
-	var table = '<table class="table table-sm" id="gameTable"><tr class="top-border bottom-border"><th scope="col">Input names:</th>';
+	var table = '<table class="table table-sm table-responsive" id="gameTable"><tr class="top-border bottom-border"><th scope="col">Input names:</th>';
 	for (var i = 1; i <= numberOfPlayers; i++) {
 		table += '<th scope="col"><input type="text" value="Player_' + i + '" id="player' + i + '" class="text-center"></th>';
 	}
@@ -76,12 +76,12 @@ function drawTable() {
 	document.getElementById('drawTableBtn').style.display = "none";
 	document.getElementById('changeNamesBtn').style.display = "inline";
 	
-	var table = '<table class="table table-sm table-striped table-hover table-dark" id="gameTable"><thead><tr><th scope="col">#</th>';
+	var table = '<table class="table table-sm table-striped-myVersion table-hover table-responsive" id="gameTable"><tr><th scope="col">#</th>';
 	for (var i = 1; i <= numberOfPlayers; i++) {
 		//playerNames[i-1] = document.getElementById('player' + i).value;
 		table += '<th scope="col" class="text-center">' + playerNames[i-1] + '</th>';
 	}
-	table += '</tr></thead><tbody>';
+	table += '</tr>';
 
 	table += gameScores;
 
@@ -102,7 +102,7 @@ function drawTable() {
 	}
 	table += '</tr>';
 
-	table += '</tbody></table>';
+	table += '</table>';
 	document.getElementById('gameTableSpan').innerHTML = table;
 }
 
@@ -125,34 +125,3 @@ function addGameRow () {
 	gameScores += '</tr>';
 	countSum();
 }
-
-/*<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">First Name</th>
-      <th scope="col">Last Name</th>
-      <th scope="col">Username</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>*/	
