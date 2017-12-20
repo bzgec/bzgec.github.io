@@ -88,8 +88,8 @@
 		<div class="row">
 			<div class="col-md-6 col-lg-5">
 				<hr>
-				<h5>Study: <input type="number" id='study' value="0.08" min="0"></h5>
-				<h5>Break: <input type="number" id='break' value="0.08" min="0"></h5>
+				<h5>Study: <input type="number" id='study' value="25" min="0"></h5>
+				<h5>Break: <input type="number" id='break' value="5" min="0"></h5>
 				<input type="button" id="multiButton" value="START" class="btn btn-primary">
 				<input type="button" id="pauseButton" value="PAUSE" class="btn btn-primary">
 				<input type="button" id='resetButton' value='RESET' class="btn btn-primary">
@@ -262,7 +262,7 @@
 		var durationStudy = 0;
 		var previousSec = 0;
 		var currentSec = 0;
-		getTimerNumbers();	// gives study and Break values
+		getTimerNumbers();	// gives study and Break values	// needed here so the remainingSession is shown at the begining...
 		document.getElementById('remainingSession').innerHTML = 'study';
 		var remainingTime = Math.floor( study );	// in case the value is like 0.08
 		checkRemainingTime();	// checks
@@ -346,6 +346,10 @@
 		}
 
 		function startCount() {
+			getTimerNumbers();	// gives study and Break values
+			document.getElementById('remainingSession').innerHTML = 'study';
+			remainingTime = Math.floor( study );	// in case the value is like 0.08
+			checkRemainingTime();	// checks
 			if (!timer_is_on) {
 				if (document.getElementById('toggleCheckbox').checked == true) {
 					hide();
