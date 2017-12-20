@@ -88,8 +88,8 @@
 		<div class="row">
 			<div class="col-md-6 col-lg-5">
 				<hr>
-				<h5>Study: <input type="number" id='study' value="25" min="0"></h5>
-				<h5>Break: <input type="number" id='break' value="5" min="0"></h5>
+				<h5>Study: <input type="number" id='study' value="0.08" min="0"></h5>
+				<h5>Break: <input type="number" id='break' value="0.08" min="0"></h5>
 				<input type="button" id="multiButton" value="START" class="btn btn-primary">
 				<input type="button" id="pauseButton" value="PAUSE" class="btn btn-primary">
 				<input type="button" id='resetButton' value='RESET' class="btn btn-primary">
@@ -100,18 +100,13 @@
 							Toggle mode: <input type="checkbox" id="toggleCheckbox" checked>
 						</td>
 						<td>
-							Full screen mode: <input type="checkbox" id="fullScreenCheckbox" checked>
+							Blink screen: <input type="checkbox" id="blinkScreenCheckbox" checked>
 						</td>
 					</tr>
 					<tr>
-						<td>
-							Blink screen: <input type="checkbox" id="blinkScreenCheckbox" checked>
-						</td>
 						<td>
 							Sound: <input type="checkbox" id="soundCheckbox" checked>
 						</td>
-					</tr>
-					<tr>
 						<td>
 							Hide cursor: <input type="checkbox" id="cursorCheckbox">
 						</td>
@@ -123,18 +118,13 @@
 							Toggle mode: <input type="checkbox" id="toggleCheckbox">
 						</td>
 						<td>
-							Full screen mode: <input type="checkbox" id="fullScreenCheckbox">
+							Blink screen: <input type="checkbox" id="blinkScreenCheckbox">
 						</td>
 					</tr>
 					<tr>
-						<td>
-							Blink screen: <input type="checkbox" id="blinkScreenCheckbox">
-						</td>
 						<td>
 							Sound: <input type="checkbox" id="soundCheckbox">
 						</td>
-					</tr>
-					<tr>
 						<td>
 							Hide cursor: <input type="checkbox" id="cursorCheckbox">
 						</td>
@@ -161,7 +151,7 @@
 						When you enter study mode:
 						<ol>
 							<li>Screen will go black.</li>
-							<li>Cursor will hide.
+							<li>Cursor will hide (if you check the Hide cursor checkbox) when screen is black.
 						</ol>
 					</li>
 					<li>When session/break ends screen will blink and speaker will beep.</li>
@@ -197,9 +187,13 @@
 			if (keyCode == 13) {	// enter
 				reset();
 			}
-			else if (keyCode == 84 || keyCode == 27) {	// t
-				toggle('ignoreCheckboxes');
-			}
+			else if (keyCode == 84 || keyCode == 27) {	// t, esc
+				if (displayStatus == "visible") {
+					hide();
+				}
+				else if (displayStatus == "hidden") {
+					show();
+				}			}
 			else if (keyCode == 32) {	// space
 				if (timer_is_on) {
 					if (end == 'waiting') {
@@ -228,7 +222,12 @@
 			reset();
 		};
 		document.getElementById('toggleButton').onclick = function() {
-			toggle("ignoreCheckboxes");
+			if (displayStatus == "visible") {
+				hide();
+			}
+			else if (displayStatus == "hidden") {
+				show();
+			}
 		};
 		document.getElementById('multiButton').onclick = function() {
 			if (timer_is_on) {
@@ -267,6 +266,7 @@
 		document.getElementById('remainingSession').innerHTML = 'study';
 		var remainingTime = Math.floor( study );	// in case the value is like 0.08
 		checkRemainingTime();	// checks
+		var displayStatus = "visible";
 
 
 		function timedCount() {
@@ -288,7 +288,7 @@
 			if (c >= study && flagStudyBreak == 1 && end == 'counting') {
 				console.log('Waiting for space to start Break.');
 				if (document.getElementById('blinkScreenCheckbox').checked == true) {
-					toggle();setTimeout(toggle, 300);setTimeout(toggle, 600);setTimeout(toggle, 900);
+					show();setTimeout(hide, 300);setTimeout(show, 600);setTimeout(hide, 900);setTimeout(show, 1200);
 				}
 				setTimeout(show,1200);
 				if (document.getElementById('soundCheckbox').checked == true) {
@@ -315,7 +315,7 @@
 			else if (c >= Break && flagStudyBreak == 2 && end == 'counting') {
 				console.log('Waiting for space to start study');
 				if (document.getElementById('blinkScreenCheckbox').checked == true) {
-					toggle();setTimeout(toggle, 300);setTimeout(toggle, 600);setTimeout(toggle, 900);
+					hide();setTimeout(show, 300);setTimeout(hide, 600);setTimeout(show, 900);//setTimeout(show, 1200);
 				}
 				if (document.getElementById('soundCheckbox').checked == true) {
 					beep1.play(); setTimeout(function(){beep1.play()},400); setTimeout(function(){beep1.play()},800); setTimeout(function(){beep1.play()},1200);
@@ -325,7 +325,9 @@
 			}
 			else if (c >= Break && flagStudyBreak == 2 && end == 'proceed') {
 				console.log('Leaving break entering study');
-				hide();
+				if (document.getElementById('toggleCheckbox').checked == true) {
+					hide();
+				}
 				c = 0;
 				previousFlag = 2;
 				flagStudyBreak = 1;
@@ -345,7 +347,12 @@
 
 		function startCount() {
 			if (!timer_is_on) {
-				hide();
+				if (document.getElementById('toggleCheckbox').checked == true) {
+					hide();
+				}
+				else {
+					show();
+				}
 				timer_is_on = 1;
 				timedCount();
 				console.log('Start: ' + getTime());
@@ -457,68 +464,22 @@
 			show();
 		}
 
-		function toggle (ignor) {
-			if (ignor == 'ignoreCheckboxes') {
-				var x = document.getElementsByTagName("BODY")[0];
-				var y = $('.toggle');
-				if (x.style.backgroundColor == "black") {
-					y.css("display","block")
-					x.style.backgroundColor  = "#36393e";
-					document.getElementsByTagName("html")[0].style.cursor = "auto";
-					leaveFullScreen(document.body);
-				}
-				else {
-					y.css("display","none")
-					x.style.backgroundColor  = "black";
-					if (document.getElementById("cursorCheckbox").checked == true) {
-						document.getElementsByTagName("html")[0].style.cursor = "none";
-					}
-					enterFullScreen(document.body);
-				}
-			}
-			else {
-				if (document.getElementById('toggleCheckbox').checked == true) {
-					var x = document.getElementsByTagName("BODY")[0];
-					var y = $('.toggle');
-					if (x.style.backgroundColor == "black") {
-						y.css("display","block")
-						x.style.backgroundColor  = "#36393e";
-						document.getElementsByTagName("html")[0].style.cursor = "auto";
-					}
-					else {
-						y.css("display","none")
-						x.style.backgroundColor  = "black";
-						if (document.getElementById("cursorCheckbox").checked == true) {
-							document.getElementsByTagName("html")[0].style.cursor = "none";
-						}
-					}
-					if (document.getElementById('fullScreenCheckbox').checked == true) {
-						toggleFullScreen(document.body);
-					}
-				}
-			}
-		}
-
 		function show () {
 			//console.log('show')
 			document.getElementsByTagName('BODY')[0].style.backgroundColor = "#36393e";
 			$('.toggle').css("display","block");
 			document.getElementsByTagName("html")[0].style.cursor = "auto";
-			leaveFullScreen(document.body);
+			displayStatus = "visible";
 		}
 
 		function hide () {
 			//console.log('hide')
-			if (document.getElementById('toggleCheckbox').checked == true) {
-				document.getElementsByTagName('BODY')[0].style.backgroundColor = "black";
-				$('.toggle').css("display","none");
-				if (document.getElementById("cursorCheckbox").checked == true) {
-					document.getElementsByTagName("html")[0].style.cursor = "none";
-				}
-				if (document.getElementById('fullScreenCheckbox').checked == true) {
-					enterFullScreen(document.body);
-				}
+			document.getElementsByTagName('BODY')[0].style.backgroundColor = "black";
+			$('.toggle').css("display","none");
+			if (document.getElementById("cursorCheckbox").checked == true) {
+				document.getElementsByTagName("html")[0].style.cursor = "none";
 			}
+			displayStatus = "hidden";
 		}
 
 		function toggleCheckbox () {
@@ -533,53 +494,6 @@
 		function getTime() {
 			var time = new Date().toString();
 			return time.substring(time.indexOf(':') - 2, time.indexOf(':') + 6);
-		}
-			function toggleFullScreen(elem) {
-    // ## The below if statement seems to work better ## if ((document.fullScreenElement && document.fullScreenElement !== null) || (document.msfullscreenElement && document.msfullscreenElement !== null) || (!document.mozFullScreen && !document.webkitIsFullScreen)) {
-    if ((document.fullScreenElement !== undefined && document.fullScreenElement === null) || (document.msFullscreenElement !== undefined && document.msFullscreenElement === null) || (document.mozFullScreen !== undefined && !document.mozFullScreen) || (document.webkitIsFullScreen !== undefined && !document.webkitIsFullScreen)) {
-        if (elem.requestFullScreen) {
-            elem.requestFullScreen();
-        } else if (elem.mozRequestFullScreen) {
-            elem.mozRequestFullScreen();
-        } else if (elem.webkitRequestFullScreen) {
-            elem.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-        } else if (elem.msRequestFullscreen) {
-            elem.msRequestFullscreen();
-        }
-    } else {
-        if (document.cancelFullScreen) {
-            document.cancelFullScreen();
-        } else if (document.mozCancelFullScreen) {
-            document.mozCancelFullScreen();
-        } else if (document.webkitCancelFullScreen) {
-            document.webkitCancelFullScreen();
-        } else if (document.msExitFullscreen) {
-            document.msExitFullscreen();
-        }
-    }
-}
-		function enterFullScreen(elem) {
-			if (elem.requestFullScreen) {
-	            elem.requestFullScreen();
-	        } else if (elem.mozRequestFullScreen) {
-	            elem.mozRequestFullScreen();
-	        } else if (elem.webkitRequestFullScreen) {
-	            elem.webkitRequestFullScreen(Element.ALLOW_KEYBOARD_INPUT);
-	        } else if (elem.msRequestFullscreen) {
-	            elem.msRequestFullscreen();
-	        }
-		}
-
-		function leaveFullScreen(elem) {
-			if (document.cancelFullScreen) {
-	            document.cancelFullScreen();
-	        } else if (document.mozCancelFullScreen) {
-	            document.mozCancelFullScreen();
-	        } else if (document.webkitCancelFullScreen) {
-	            document.webkitCancelFullScreen();
-	        } else if (document.msExitFullscreen) {
-	            document.msExitFullscreen();
-	        }
 		}
 
 		var beep1 = new Audio("data:audio/wav;base64,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qJrx4KOQjahZxWbcZgztj2c49nKmkId44S71j0c8eV9yDK6uPRzx5X18eDvjvQ6yKo9ZSS6l//8elePK/Lf//IInrOF/FvDoADYAGBMGb7FtErm5MXMlmPAJQVgWta7Zx2go+8xJ0UiCb8LHHdftWyLJE0QIAIsI+UbXu67dZMjmgDGCGl1H+vpF4NSDckSIkk7Vd+sxEhBQMRU8j/12UIRhzSaUdQ+rQU5kGeFxm+hb1oh6pWWmv3uvmReDl0UnvtapVaIzo1jZbf/pD6ElLqSX+rUmOQNpJFa/r+sa4e/pBlAABoAAAAA3CUgShLdGIxsY7AUABPRrgCABdDuQ5GC7DqPQCgbbJUAoRSUj+NIEig0YfyWUho1VBBBA//uQZB4ABZx5zfMakeAAAAmwAAAAF5F3P0w9GtAAACfAAAAAwLhMDmAYWMgVEG1U0FIGCBgXBXAtfMH10000EEEEEECUBYln03TTTdNBDZopopYvrTTdNa325mImNg3TTPV9q3pmY0xoO6bv3r00y+IDGid/9aaaZTGMuj9mpu9Mpio1dXrr5HERTZSmqU36A3CumzN/9Robv/Xx4v9ijkSRSNLQhAWumap82WRSBUqXStV/YcS+XVLnSS+WLDroqArFkMEsAS+eWmrUzrO0oEmE40RlMZ5+ODIkAyKAGUwZ3mVKmcamcJnMW26MRPgUw6j+LkhyHGVGYjSUUKNpuJUQoOIAyDvEyG8S5yfK6dhZc0Tx1KI/gviKL6qvvFs1+bWtaz58uUNnryq6kt5RzOCkPWlVqVX2a/EEBUdU1KrXLf40GoiiFXK///qpoiDXrOgqDR38JB0bw7SoL+ZB9o1RCkQjQ2CBYZKd/+VJxZRRZlqSkKiws0WFxUyCwsKiMy7hUVFhIaCrNQsKkTIsLivwKKigsj8XYlwt/WKi2N4d//uQRCSAAjURNIHpMZBGYiaQPSYyAAABLAAAAAAAACWAAAAApUF/Mg+0aohSIRobBAsMlO//Kk4soosy1JSFRYWaLC4qZBYWFRGZdwqKiwkNBVmoWFSJkWFxX4FFRQWR+LsS4W/rFRb/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////VEFHAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAU291bmRib3kuZGUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjAwNGh0dHA6Ly93d3cuc291bmRib3kuZGUAAAAAAAAAACU=");
