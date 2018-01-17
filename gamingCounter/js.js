@@ -1,10 +1,28 @@
 window.addEventListener("keyup", function(event) {	
-	//console.log(event.keyCode)		
-	if (event.keyCode == 32) {	// space 
+	console.log(event.keyCode)		
+	/*if (event.keyCode == 32) {	// space 
 		drawTable();
-	}
+	}*/
 	if (event.keyCode == 13) {	// enter 
-		addGameRow();
+		if ( changingNames == 1 ) {	// if you press enter to confirm changes made to player names
+			editPlayerNames();
+			drawTable();
+			changingNames = 0;
+		}
+		else {	 
+			addGameRow();
+		}
+	}
+	if (event.keyCode == 67) {	// c
+		if ( changingNames == 0 ) {
+			document.getElementById('addingNames').style.display = "block";
+			changingNames = 1;
+		}
+		else if ( changingNames == 1 ) {
+			editPlayerNames();
+			drawTable();
+			changingNames = 0;
+		}
 	}
 });
 
