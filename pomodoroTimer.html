@@ -255,13 +255,14 @@
 		var timer_is_on = 0;
 		var study = 0;
 		var Break = 0;
-		var flagStudyBreak = 0;	// 0 = paused, 1 = studyTime, 2 = breakTime
+		var flagStudyBreak = 4;	// 0 = paused, 1 = studyTime, 2 = breakTime
 		var previousFlag = 0;
 		var pomodoroCounter = 0;
 		var durationBreak = 0;
 		var durationStudy = 0;
 		var previousSec = 0;
 		var currentSec = 0;
+		//var paused = 0;
 		getTimerNumbers();	// gives study and Break values	// needed here so the remainingSession is shown at the begining...
 		document.getElementById('remainingSession').innerHTML = 'study';
 		var remainingTime = Math.floor( study );	// in case the value is like 0.08
@@ -342,13 +343,15 @@
 
 			multiButton();
 
-			t = setTimeout(function(){ timedCount() }, 96);	// if hundered timer is too slow (meaning that when real hour is passed timer would be 55min)
+			t = setTimeout(function(){ timedCount() }, 96);
 		}
 
 		function startCount() {
 			getTimerNumbers();	// gives study and Break values
 			document.getElementById('remainingSession').innerHTML = 'study';
-			remainingTime = Math.floor( study );	// in case the value is like 0.08
+			if (flagStudyBreak != 0) { // 0 = paused
+				remainingTime = Math.floor( study );	// in case the value is like 0.08
+			}
 			checkRemainingTime();	// checks
 			if (!timer_is_on) {
 				if (document.getElementById('toggleCheckbox').checked == true) {
@@ -375,6 +378,7 @@
 			show();
 			clearTimeout(t);
 			timer_is_on = 0;
+			//paused = 1;
 			console.log('Stop: ' + getTime());
 			previousFlag = flagStudyBreak;
 			flagStudyBreak = 0;
@@ -454,9 +458,10 @@
 			Break = 0;
 			durationBreak = 0;
 			durationStudy = 0;
-			flagStudyBreak = 0;	// 0 = paused, 1 = studyTime, 2 = BreakTime
+			flagStudyBreak = 4;	// 0 = paused, 1 = studyTime, 2 = BreakTime
 			previousFlag = 0;
 			pomodoroCounter = 0;
+			//paused = 0;
 			getTimerNumbers();
 			remainingTime = Math.floor( study );
 			checkRemainingTime();
