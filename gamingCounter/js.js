@@ -1,3 +1,5 @@
+var selectFirstPlayer = 0;
+
 window.addEventListener("keyup", function(event) {	
 	console.log(event.keyCode)		
 	/*if (event.keyCode == 32) {	// space 
@@ -22,6 +24,12 @@ window.addEventListener("keyup", function(event) {
 			editPlayerNames();
 			drawTable();
 			changingNames = 0;
+		}
+	}
+	if (event.keyCode == 9) {	// TAB
+		if (selectFirstPlayer == 0) {
+			document.getElementById("addScoreToPlayer1").focus();
+			selectFirstPlayer = 1;
 		}
 	}
 });
@@ -142,4 +150,5 @@ function addGameRow () {
 	}
 	gameScores += '</tr>';
 	countSum();
+	selectFirstPlayer = 0;
 }
