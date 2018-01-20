@@ -98,12 +98,13 @@
 				<ul>
 					<li>If you press <kbd>ENTER</kbd>, it will add results of current game to total sum.</li>
 					<li>Press <kbd>C</kbd> to change player names. To confirm changes press <kbd>ENTER</kbd> or <kbd>C</kbd></li>
-					<li>By pressing <kbd>TAB</kbd>, you will select input box for first player.</li>
+					<li>By pressing <kbd>TAB</kbd>, you will select input box for first player, if you press it again, it is going to select next player input box.</li>
 				</ul>
 			</div>
 		</div>
 				
 	</div>
+	<input style="z-index: -100; display: inline; position: fixed; top:0; left:0; width: 0px; height: 0px;"> <!-- it is here becasue selecting player input boxes with TAB button would jump to url section of browser otherwise, because last input box of players scores is last box TAB can jump on -->
 
 	<small><span id='madeBy' class="text-muted">© Bzgec 2017</span></small>
 
