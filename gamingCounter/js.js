@@ -1,4 +1,4 @@
-var selectFirstPlayer = 0;
+var selectedPlayer = 0;
 
 window.addEventListener("keyup", function(event) {	
 	console.log(event.keyCode)		
@@ -27,9 +27,12 @@ window.addEventListener("keyup", function(event) {
 		}
 	}
 	if (event.keyCode == 9) {	// TAB
-		if (selectFirstPlayer == 0) {
+		selectedPlayer++;
+		if (selectedPlayer == 1) {
 			document.getElementById("addScoreToPlayer1").focus();
-			selectFirstPlayer = 1;
+		}
+		else if (selectedPlayer >= numberOfPlayers) {	// -1 because selectedPlayer starts with 0
+			selectedPlayer = 0;
 		}
 	}
 });
@@ -68,16 +71,20 @@ $(':button').click(	// if any button is clicked...
 var playedGames = 0;
 var gameScores = "";
 var totalScores = "";
-var numberOfPlayers = document.getElementById('numberOfPlayers').value;
-var scores =[];//= new Array(numberOfPlayers);
-for (var i = 1; i <= numberOfPlayers; i++) scores.push(0);
-var playerNames = new Array(numberOfPlayers);
+var numberOfPlayers = 0;	// it is set later when you input number of players in drawPlayerNamesTable()
+var scores =[]; //= new Array(numberOfPlayers);	// set when you input number of players
+var playerNames =[]; //= new Array(numberOfPlayers);	// set when you input number of players
 var changingNames = 0;
 
 /*for (var i = 0; i <= numberOfPlayers; i++) {
     scores[i] = 0;
 }*/
 function drawPlayerNamesTable () {
+	// added here because if you add more than 4 players it would not work correctly
+	numberOfPlayers = document.getElementById('numberOfPlayers').value;
+	for (var i = 1; i <= numberOfPlayers; i++) scores.push(0);
+	playerNames = new Array(numberOfPlayers);
+
 	numberOfPlayers = document.getElementById('numberOfPlayers').value;
 	document.getElementById('addingNames').style.display = "block";
 	//var table = '<table class="table table-sm" id="gameTable"><tr class="top-border bottom-border">';	//<th scope="col">Name:</th>';
@@ -122,7 +129,7 @@ function drawTable() {
 		table += totalScores;
 	}
 	
-	table += '<tr class="top-border"><th scope="row"><button class="btn btn-sm btn-secondary cursor-pointer" id="addBtn" onclick="addGameRow()">Add result</button></th>'
+	table += '<tr class="top-border"><th scope="row"><button class="btn btn-sm btn-secondary cursor-pointer" id="addBtn" onclick="addGameRow()">Add results</button></th>'
 	for (i = 1; i <= numberOfPlayers; i++) {
 		table += '<td class="text-center"><input type="number" value="" id="addScoreToPlayer' + i + '" class="text-center"></td>';
 	}
@@ -150,5 +157,5 @@ function addGameRow () {
 	}
 	gameScores += '</tr>';
 	countSum();
-	selectFirstPlayer = 0;
+	selectedPlayer = 0;
 }
