@@ -21,6 +21,14 @@
 		td {
 			width: 150px;
 		}
+		button.separate:nth-child(2n) {
+			border-left: collapse;
+			border-left-color: #313338;
+		}
+		button.separate:nth-child(2n+1) {
+			border-right: collapse;
+			border-right-color: #313338;
+		}
 	</style>
 </head>
 
@@ -80,6 +88,8 @@
 				<button class="btn btn-sm btn-secondary hide cursor-pointer" id="drawTableBtn">
 					Draw table
 				</button>
+				<button class="btn btn-sm btn-secondary hide cursor-pointer" id="radlciBtn">
+					Radlci: ON</button>
 				<br></br>
 				<span id='addingNames'></span>
 			</div>
