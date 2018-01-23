@@ -54,6 +54,9 @@ $(':button').click(	// if any button is clicked...
 		else if (id == "addNamesBtn") {	// if id=refreshButton...
 			drawPlayerNamesTable();
 		}
+		else if (id == "radlciBtn") {	// if id=refreshButton...
+			showHideRadlci();
+		}
 		else if (id == "changeNamesBtn") {	// if id=refreshButton...
 			if ( changingNames == 0 ) {
 				document.getElementById('addingNames').style.display = "block";
@@ -75,15 +78,26 @@ var numberOfPlayers = 0;	// it is set later when you input number of players in 
 var scores =[]; //= new Array(numberOfPlayers);	// set when you input number of players
 var playerNames =[]; //= new Array(numberOfPlayers);	// set when you input number of players
 var changingNames = 0;
+var showRadlci = 0;
+
+// that you can set radlciBtn in .html to ON/OFF and if it is ON it changes showRadlci so it displays radlci at first drawTable()
+if (document.getElementById('radlciBtn').innerHTML.substr(document.getElementById('radlciBtn').innerHTML.indexOf(':')+2, document.getElementById('radlciBtn').innerHTML.length) == 'ON') {
+	showRadlci = 1;
+}
+
+var radlci = 0;
+var usedRadlci = [];	// how many radlcov player already used, it is set later as others before
 
 /*for (var i = 0; i <= numberOfPlayers; i++) {
     scores[i] = 0;
 }*/
+
 function drawPlayerNamesTable () {
 	// added here because if you add more than 4 players it would not work correctly
 	numberOfPlayers = document.getElementById('numberOfPlayers').value;
 	for (var i = 1; i <= numberOfPlayers; i++) scores.push(0);
-	playerNames = new Array(numberOfPlayers);
+	//playerNames = new Array(numberOfPlayers);
+	for (var i = 1; i <= numberOfPlayers; i++) usedRadlci.push(0);
 
 	numberOfPlayers = document.getElementById('numberOfPlayers').value;
 	document.getElementById('addingNames').style.display = "block";
@@ -108,6 +122,7 @@ function drawTable() {
 	document.getElementById('addingNames').style.display = "none";
 	document.getElementById('drawTableBtn').style.display = "none";
 	document.getElementById('changeNamesBtn').style.display = "inline";
+	document.getElementById('radlciBtn').style.display = "inline";
 	
 	var table = '<table class="table table-sm table-striped-myVersion table-hover table-responsive" id="gameTable"><tr><th scope="col">#</th>';
 	for (var i = 1; i <= numberOfPlayers; i++) {
@@ -128,8 +143,40 @@ function drawTable() {
 	else {
 		table += totalScores;
 	}
+
+	if (showRadlci == 1) {
+		table += '<tr class="top-border"><th scope="row">Radlci';
+		table += '<div class="btn-group" role="group" aria-label="Basic example">&nbsp;';
+		table += '<button type="button" class="btn btn-xs btn-secondary cursor-pointer separate" onclick="radlciPlus()">+</button>';
+		table += '<button type="button" class="btn btn-xs btn-secondary cursor-pointer separate" onclick="radlciMinus()">-</button></div>';
+		table += '</th>'
+		for (i = 0; i < numberOfPlayers; i++) {
+			//table += '<td id="radlciOfPlayer' + i + '" class="text-center">';
+			table += '<td class="text-center">';
+			
+			table += '<div class="btn-group" role="group" aria-label="Basic example">&nbsp;';
+			table += '<button type="button" class="btn btn-xs btn-secondary cursor-pointer separate" onclick="radlciUse(' + i + ')">+</button>';
+			table += '<button type="button" class="btn btn-xs btn-secondary cursor-pointer separate" onclick="radlciUnuse(' + i + ')">-</button></div>';
+
+			for (var j = 0; j < radlci; j++) {
+				if (j % 5 == 0) {	// it puts radlce in new line if there are more than 5 and first time so that they are not in the same line as +- buttons
+					table += '<br>';
+				}
+
+				if (j < usedRadlci[i]) {
+					table += '<span class="smaller-65">&#x26AB;</span>';	// full circle
+				}
+				else {
+					table += '<span class="smaller-65">&#x26AA;</span>';	// empty circle
+				}
+			}
+
+			table +='</td>';
+		}
+		table += '</tr>';
+	}
 	
-	table += '<tr class="top-border"><th scope="row"><button class="btn btn-sm btn-secondary cursor-pointer" id="addBtn" onclick="addGameRow()">Add results</button></th>'
+	table += '<tr class="top-border"><th scope="row"><button class="btn btn-sm btn-secondary cursor-pointer" id="addBtn" onclick="addGameRow()">Add results</button></th>';
 	for (i = 1; i <= numberOfPlayers; i++) {
 		table += '<td class="text-center"><input type="number" value="" id="addScoreToPlayer' + i + '" class="text-center"></td>';
 	}
@@ -158,4 +205,41 @@ function addGameRow () {
 	gameScores += '</tr>';
 	countSum();
 	selectedPlayer = 0;
+}
+
+function showHideRadlci () {
+	var button = document.getElementById('radlciBtn');
+	var name = button.innerHTML;
+	onOff = name.substr(name.indexOf(':')+2, name.length);	// Radlci: OFF -> OFF
+	if (onOff == 'OFF') {
+		button.innerHTML = 'Radlci: ON'
+		showRadlci = 1;
+		drawTable();
+	}
+	else if (onOff == 'ON') {
+		button.innerHTML = 'Radlci: OFF'
+		showRadlci = 0;
+		drawTable();
+	}
+}
+
+function radlciPlus () {
+	radlci++;
+	drawTable();
+}
+function radlciMinus () {
+	radlci--;
+	drawTable();
+}
+function radlciUse (player) {
+	if (usedRadlci[player] < radlci) {	// that it does not go higher than the max number of available radlci
+		usedRadlci[player]++;
+		countSum();
+	}
+}
+function radlciUnuse (player) {
+	if (usedRadlci[player] > 0) {	// that it does not go to negative numbers
+		usedRadlci[player]--;
+		countSum();
+	}
 }
