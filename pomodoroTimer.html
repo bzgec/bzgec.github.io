@@ -88,10 +88,10 @@
 		<div class="row">
 			<div class="col-md-6 col-lg-5">
 				<hr>
-				<h5>Study: <input type="number" id='study' value="25" min="0"></h5>
-				<h5>Break: <input type="number" id='break' value="5" min="0"></h5>
+				<h5>Study: <input type="number" id='study' value="25" min="0" onmouseup="refreshTimes(event)"></h5>
+				<h5>Break: <input type="number" id='break' value="5" min="0" onmouseup="refreshTimes(event)"></h5>
 				<input type="button" id="multiButton" value="START" class="btn btn-primary">
-				<input type="button" id="pauseButton" value="PAUSE" class="btn btn-primary">
+				<input type="button" id="pauseButton" value="PAUSE" class="btn btn-primary" disabled>
 				<input type="button" id='resetButton' value='RESET' class="btn btn-primary">
 				<br>
 				<table>
@@ -134,7 +134,7 @@
 			<div class="col-md-6 col-lg-5">
 				<hr>
 				<h4>Info</h4>
-				<h5>Remaining <span id='remainingSession'></span>: <span id="remainingTime">00:00:00</span></h5>
+				<h5>Remaining <span id='remainingSession'>study</span>: <span id="remainingTime">00:25:00</span></h5>
 				<h5>Finished pomodoro sessions: <small><span id='pomodoroCounter'>0</span></small></h5>
 				<h5>Total time: <small><span id='durationTotal'>00:00:00</span></small></h5>
 				<h5>Study time: <small><span id='durationStudy'>00:00:00</span></small></h5>
@@ -162,10 +162,10 @@
 				<hr>
 				<h4>Instructions</h4>
 				<ul>
-					<li>Press <kbd>SPACE</kbd> to start/pause/continue timer.</li>
+					<li>Press <kbd>SPACE</kbd> to start/pause/continue timer, it is like a multi button.</li>
 					<li>Pressing <kbd>T</kbd> or <kbd>ESC</kbd> will toggle screen.</li>
 					<li>Pressing <kbd>C</kbd> will toggle cursor checkbox.</li>
-					<li>Press <kbd>ENTER</kbd> to reset everything.</li>
+					<li>Press <kbd>R</kbd> to reset everything.</li>
 					<li>Press <kbd>P</kbd> to pause timer.</li>
 					<li>By pressing <kbd>F11</kbd> browser will enter full screen mode.</li>
 				</ul>
@@ -183,8 +183,8 @@
 	<script>
 		window.addEventListener("keyup", function(event) {
 		var keyCode = event.keyCode;
-		//console.log(keyCode)
-			if (keyCode == 13) {	// enter
+		console.log(keyCode)
+			if (keyCode == 82) {	// r
 				reset();
 			}
 			else if (keyCode == 84 || keyCode == 27) {	// t, esc
@@ -201,6 +201,7 @@
 					}
 					else if (end == 'counting') {
 						stopCount();
+						buttons();
 					}
 				}
 				else {
@@ -212,7 +213,15 @@
 				toggleCheckbox();
 			}
 			else if (keyCode == 80) {	// P
-				stopCount();
+				if (timer_is_on) {
+					stopCount();
+				}
+				buttons();
+			}
+			else if ((keyCode <= 57 && keyCode >= 48) || (keyCode <= 105 && keyCode >= 96)) {	// if number is pressed (top line or numbers in box)
+				if (!timer_is_on) {
+					refreshTimes();
+				}
 			}
 		});
 
@@ -243,11 +252,11 @@
 			if (timer_is_on) {
 				stopCount();
 			}
-			multiButton();
+			buttons();
 		};
 
 		var end = 'counting';
-		var c = 0;
+		var c = 1;	// should start with 1 because otherwise timer would stop one second too late
 		var s = 0;
 		var sStudy = 0;
 		var sBreak = 0;
@@ -263,7 +272,8 @@
 		var previousSec = 0;
 		var currentSec = 0;
 		//var paused = 0;
-		getTimerNumbers();	// gives study and Break values	// needed here so the remainingSession is shown at the begining...
+		//getTimerNumbers();	// gives study and Break values	// needed here so the remainingSession is shown at the begining...
+		refreshTimes(); // updates study and break values(getTimerNumber()) and refreshes displayed remaining time
 		document.getElementById('remainingSession').innerHTML = 'study';
 		var remainingTime = Math.floor( study );	// in case the value is like 0.08
 		checkRemainingTime();	// checks
@@ -271,18 +281,17 @@
 
 
 		function timedCount() {
-			//if (c == 0) getTimerNumbers();
-
+			//console.log(remainingTime)
+			//console.log(c)
 			currentSec = getSec();
-
 			if (previousSec != currentSec) {
 				c++;
 				durations();
-				if (c != 1) {
+				//if (c != 1) {
 					if (remainingTime >= 0) {
 						checkRemainingTime();
 					}
-				}
+				//}
 				previousSec = currentSec;
 			}
 
@@ -301,7 +310,7 @@
 			else if (c >= study && flagStudyBreak == 1 && end == 'proceed') {
 				console.log('Leaving study and entering break.');
 				//toggle();
-				c = 0;
+				c = 1;	// should start with 1 because otherwise timer would stop one second too late
 				previousFlag = 1;
 				flagStudyBreak = 2;
 				document.getElementById('pomodoroCounter').innerHTML = ++pomodoroCounter;
@@ -329,7 +338,7 @@
 				if (document.getElementById('toggleCheckbox').checked == true) {
 					hide();
 				}
-				c = 0;
+				c = 1;	// should start with 1 because otherwise timer would stop one second too late
 				previousFlag = 2;
 				flagStudyBreak = 1;
 				console.log('Break end: ' + getTime());
@@ -341,18 +350,18 @@
 				console.log('end: ' + end);
 			}
 
-			multiButton();
+			buttons();
 
-			t = setTimeout(function(){ timedCount() }, 96);
+			t = setTimeout(function(){ timedCount() }, 200);
 		}
 
 		function startCount() {
 			getTimerNumbers();	// gives study and Break values
-			document.getElementById('remainingSession').innerHTML = 'study';
+			//document.getElementById('remainingSession').innerHTML = 'study';
 			if (flagStudyBreak != 0) { // 0 = paused
 				remainingTime = Math.floor( study );	// in case the value is like 0.08
 			}
-			checkRemainingTime();	// checks
+			//checkRemainingTime();	// checks
 			if (!timer_is_on) {
 				if (document.getElementById('toggleCheckbox').checked == true) {
 					hide();
@@ -361,7 +370,6 @@
 					show();
 				}
 				timer_is_on = 1;
-				timedCount();
 				console.log('Start: ' + getTime());
 				var helper = previousFlag;
 				previousFlag = flagStudyBreak;
@@ -371,6 +379,9 @@
 				}
 				console.log('previousFlag: ' + previousFlag);
 				console.log('currentFlag: ' + flagStudyBreak);
+				//setTimeout(function(){ timedCount() }, 900);
+				previousSec = getSec();
+				timedCount();
 			}
 		}
 
@@ -391,23 +402,29 @@
 			return d.getSeconds();
 		}
 
+		function refreshTimes (event) {
+			//console.log(event.button)
+			if (!timer_is_on) {
+				getTimerNumbers();
+				remainingTime = Math.floor( study );
+				document.getElementById('remainingTime').innerHTML = convertToNormalTimeForm(remainingTime);
+			}
+		}
+
 		function checkRemainingTime () {
 			document.getElementById('remainingTime').innerHTML = convertToNormalTimeForm(remainingTime);
-			remainingTime--;
 		}
 
 		function durations () {
-			document.getElementById("durationTotal").innerHTML = convertToNormalTimeForm(s);
-
+			remainingTime--;
 			s++;
 			if (flagStudyBreak == 1) sStudy++;
 			else if (flagStudyBreak == 2) sBreak++;
-			//console.log(c)
 			//console.log(s)
-
+			document.getElementById("durationTotal").innerHTML = convertToNormalTimeForm(s);
 			document.getElementById("durationStudy").innerHTML = convertToNormalTimeForm(sStudy);
 			document.getElementById("durationBreak").innerHTML = convertToNormalTimeForm(sBreak);
-			//console.log(c%10)
+
 		}
 
 		function convertToNormalTimeForm (sec) {
@@ -428,12 +445,23 @@
 			return i;
 		}
 
-		function multiButton () {
-			if (end == 'waiting') {
-				document.getElementById('multiButton').value = 'NEXT';
+		function buttons () {
+			if (timer_is_on) {
+				if (end == 'waiting') {
+					//document.getElementById('pauseButton').disabled = false;
+					document.getElementById('multiButton').disabled = false;
+					document.getElementById('multiButton').value = 'NEXT';
+				}
+				else if (end == 'counting') {
+					document.getElementById('pauseButton').disabled = false;
+					document.getElementById('multiButton').disabled = true;
+					document.getElementById('multiButton').value = 'CONTINUE';
+				}
 			}
-			else if (end == 'counting') {
-				document.getElementById('multiButton').value = 'COUNTING';
+			else {
+				document.getElementById('pauseButton').disabled = true;
+				document.getElementById('multiButton').disabled = false;
+				document.getElementById('multiButton').value = 'CONTINUE';
 			}
 		}
 
@@ -448,7 +476,7 @@
 			document.getElementById("study").value = 25;
 			document.getElementById("break").value = 5;
 			end = 'counting';
-			c = 0;
+			c = 1;	// should start with 1 because otherwise timer would stop one second too late
 			s = 0;
 			sStudy = 0;
 			sBreak = 0;
@@ -462,14 +490,17 @@
 			previousFlag = 0;
 			pomodoroCounter = 0;
 			//paused = 0;
-			getTimerNumbers();
-			remainingTime = Math.floor( study );
-			checkRemainingTime();
+			//getTimerNumbers();
+			//remainingTime = Math.floor( study );
+			//checkRemainingTime();
+			refreshTimes();
 			document.getElementById('remainingSession').innerHTML = 'study';
 			document.getElementById("durationTotal").innerHTML = "00:00:00";
 			document.getElementById("durationStudy").innerHTML = "00:00:00";
 			document.getElementById("durationBreak").innerHTML = "00:00:00";
 			document.getElementById('multiButton').value = 'START';
+			document.getElementById('pauseButton').disabled = false;
+			document.getElementById('multiButton').disabled = false;
 			show();
 		}
 
