@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset='utf=8'>		<!-- Encoding za sumnike? -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Pomodoro</title>		<!-- Na tabu kaze ime taba -->
+	<link rel="icon" href="../icon.png">		<!-- icon shown on tab -->
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+	<link rel='stylesheet' tyle='text/css' href='../css.css'>		<!-- calling external css file -->
+	
+	<style>
+		#toggleButton {
+			border: none;
+			border-radius: 0px 10px 0px 0px;
+			background-color: #bababa;
+			width: 70px;
+			height: 30px;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+		}
+		#madeBy {
+			position: fixed;
+			bottom: 5px;
+			right: 10px;
+		}
+		#remainingTime {
+			color: #e5e5e5;
+		}
+		h1 {
+			font-size: 40px;
+		}
+		td {
+			width: 150px;
+		}
+		/*.container-fluid {
+			min-width: 100%;
+		}*/
+	</style>
+</head>
+
+<body>
+	<div class="toggle">
+		<nav class="navbar navbar-dark bg-nav sticky-top navbar-expand-sm">
+			<ul class="navbar-nav">
+				<li class="nav-item ml-auto">
+					<a id="navMain" class="nav-link" href="/index.html">Main</a>
+				</li>
+			</ul>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav">
+					<li class="nav-item ml-auto">
+						<a id="navPomodoroTimer" class="nav-link" href="/pomodoroTimer/pomodoroTimer.html">Pomodoro timer</a>
+					</li>
+					<li class="nav-item ml-auto">
+						<a id="navSudoku" class="nav-link" href="/sudoku/sudoku.html">Sudoku</a>
+					</li>
+					<li class="nav-item ml-auto">
+						<a id="navGamingCounter" class="nav-link" href="/gamingCounter/gamingCounter.html">Gaming counter</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item ml-auto">
+						<a id="navAbout" class="nav-link" href="/about.html">About</a>
+					</li>
+				</ul>
+			</div>
+		</nav>
+	</div>
+	<script type="text/javascript">
+		document.getElementById('navPomodoroTimer').classList.add('active');
+	</script>
+
+	<div id="main" class="container toggle">
+		<br>
+		<div class="row">
+			<div class="col col-md-6 col-lg-5">
+				<h1 class="text-center">Pomodoro</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-6 col-lg-5">
+				<hr>
+				<h5>Study: <input type="number" id='study' value="25" min="0" onmouseup="refreshTimes(event)"></h5>
+				<h5>Break: <input type="number" id='break' value="5" min="0" onmouseup="refreshTimes(event)"></h5>
+				<input type="button" id="multiButton" value="START" class="btn btn-primary">
+				<input type="button" id="pauseButton" value="PAUSE" class="btn btn-primary" disabled>
+				<input type="button" id='resetButton' value='RESET' class="btn btn-primary">
+				<br>
+				<table>
+					<tr>
+						<td>
+							Toggle mode: <input type="checkbox" id="toggleCheckbox" checked>
+						</td>
+						<td>
+							Blink screen: <input type="checkbox" id="blinkScreenCheckbox" checked>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Sound: <input type="checkbox" id="soundCheckbox" checked>
+						</td>
+						<td>
+							Hide cursor: <input type="checkbox" id="cursorCheckbox">
+						</td>
+					</tr>
+				</table>
+				<!--<table>
+					<tr>
+						<td>
+							Toggle mode: <input type="checkbox" id="toggleCheckbox">
+						</td>
+						<td>
+							Blink screen: <input type="checkbox" id="blinkScreenCheckbox">
+						</td>
+					</tr>
+					<tr>
+						<td>
+							Sound: <input type="checkbox" id="soundCheckbox">
+						</td>
+						<td>
+							Hide cursor: <input type="checkbox" id="cursorCheckbox">
+						</td>
+					</tr>
+				</table>-->
+			</div>
+			<div class="col-md-6 col-lg-5">
+				<hr>
+				<h4>Info</h4>
+				<h5>Remaining <span id='remainingSession'>study</span>: <span id="remainingTime">00:25:00</span></h5>
+				<h5>Finished pomodoro sessions: <small><span id='pomodoroCounter'>0</span></small></h5>
+				<h5>Total time: <small><span id='durationTotal'>00:00:00</span></small></h5>
+				<h5>Study time: <small><span id='durationStudy'>00:00:00</span></small></h5>
+				<h5>Break time: <small><span id="durationBreak">00:00:00</span></small></h5>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-6 col-lg-5">
+				<hr>
+				<h4>Do not be scared</h4>
+				<ul>
+					<li>
+						When you enter study mode:
+						<ol>
+							<li>Screen will go black.</li>
+							<li>Cursor will hide (if you check the Hide cursor checkbox) when screen is black.
+						</ol>
+					</li>
+					<li>When session/break ends screen will blink and speaker will beep.</li>
+				</ul>
+			</div>
+
+			<div class="col-md-6 col-lg-5">
+				<hr>
+				<h4>Instructions</h4>
+				<ul>
+					<li>Press <kbd>SPACE</kbd> to start/pause/continue timer, it is like a multi button.</li>
+					<li>Pressing <kbd>T</kbd> or <kbd>ESC</kbd> will toggle screen.</li>
+					<li>Pressing <kbd>C</kbd> will toggle cursor checkbox.</li>
+					<li>Press <kbd>R</kbd> to reset everything.</li>
+					<li>Press <kbd>P</kbd> to pause timer.</li>
+					<li>By pressing <kbd>F11</kbd> browser will enter full screen mode.</li>
+				</ul>
+			</div>
+
+		</div>
+		<br> <!-- because toggle button would cover text when on narrow screen -->
+	</div>
+
+	<button id="toggleButton" class="cursor-pointer">Toggle</button>
+	<small><span id='madeBy' class="text-muted">© Bzgec 2017</span></small>
+
+
+	<!--
+	<script src='jquery-3.2.1.min.js'></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+	-->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+	<script src="./jsPomodoroTimer.js"></script>
+</body>
+
+</html>
