@@ -92,6 +92,7 @@
 				<h5>Break: <input type="number" id='break' value="5" min="0" onmouseup="refreshTimes(event)"></h5>
 				<input type="button" id="multiButton" value="START" class="btn btn-primary">
 				<input type="button" id="pauseButton" value="PAUSE" class="btn btn-primary" disabled>
+				<input type="button" id="skipButton" value="SKIP" class="btn btn-primary">
 				<input type="button" id='resetButton' value='RESET' class="btn btn-primary">
 				<br>
 				<table>
@@ -165,9 +166,10 @@
 					<li>Press <kbd>SPACE</kbd> to start/pause/continue timer, it is like a multi button.</li>
 					<li>Pressing <kbd>T</kbd> or <kbd>ESC</kbd> will toggle screen.</li>
 					<li>Pressing <kbd>C</kbd> will toggle cursor checkbox.</li>
-					<li>Press <kbd>R</kbd> to reset everything.</li>
+					<li>Press <kbd>R</kbd> to reset everything, except finished sessions.</li>
 					<li>Press <kbd>P</kbd> to pause timer.</li>
 					<li>By pressing <kbd>F11</kbd> browser will enter full screen mode.</li>
+					<li>Press <kbd>S</kbd> to skip current session and start next one (from study to break or other way around).</li>
 				</ul>
 			</div>
 
