@@ -40,6 +40,9 @@ window.addEventListener("keyup", function(event) {
 					refreshTimes();
 				}
 			}
+			else if (keyCode == 83) {	// S
+				skipButtonFunction();
+			}
 		});
 
 
@@ -71,6 +74,9 @@ window.addEventListener("keyup", function(event) {
 			}
 			buttons();
 		};
+		document.getElementById('skipButton').onclick = function() {
+			skipButtonFunction();
+		};
 
 		var end = 'counting';
 		var c = 1;	// should start with 1 because otherwise timer would stop one second too late
@@ -81,7 +87,7 @@ window.addEventListener("keyup", function(event) {
 		var timer_is_on = 0;
 		var study = 0;
 		var Break = 0;
-		var flagStudyBreak = 4;	// 0 = paused, 1 = studyTime, 2 = breakTime
+		var flagStudyBreak = 0;	// 0 = paused, 1 = studyTime, 2 = breakTime, 4 = pageLoadaed
 		var previousFlag = 0;
 		var pomodoroCounter = 0;
 		var durationBreak = 0;
@@ -175,9 +181,9 @@ window.addEventListener("keyup", function(event) {
 		function startCount() {
 			getTimerNumbers();	// gives study and Break values
 			//document.getElementById('remainingSession').innerHTML = 'study';
-			if (flagStudyBreak != 0) { // 0 = paused
+			/*if (flagStudyBreak != 0) { // 0 = paused
 				remainingTime = Math.floor( study );	// in case the value is like 0.08
-			}
+			}*/
 			//checkRemainingTime();	// checks
 			if (!timer_is_on) {
 				if (document.getElementById('toggleCheckbox').checked == true) {
@@ -190,9 +196,9 @@ window.addEventListener("keyup", function(event) {
 				console.log('Start: ' + getTime());
 				var helper = previousFlag;
 				previousFlag = flagStudyBreak;
-				if (helper == 2) flagStudyBreak = 2;
-				else {
-					flagStudyBreak = 1;
+				if (flagStudyBreak == 0) { // if timer was paused, it is needed because the skipButtonFunction....
+					if (helper == 2) flagStudyBreak = 2; // if before pause there was breakTime
+					else flagStudyBreak = 1;	// if before pause there was studyTime
 				}
 				console.log('previousFlag: ' + previousFlag);
 				console.log('currentFlag: ' + flagStudyBreak);
@@ -264,22 +270,62 @@ window.addEventListener("keyup", function(event) {
 
 		function buttons () {
 			if (timer_is_on) {
-				if (end == 'waiting') {
+				if (end == 'waiting') {	// waiting to start break or study session
 					//document.getElementById('pauseButton').disabled = false;
 					document.getElementById('multiButton').disabled = false;
 					document.getElementById('multiButton').value = 'NEXT';
+					document.getElementById('skipButton').disabled = true;
 				}
-				else if (end == 'counting') {
+				else if (end == 'counting') {	// in middle of a session
 					document.getElementById('pauseButton').disabled = false;
 					document.getElementById('multiButton').disabled = true;
 					document.getElementById('multiButton').value = 'CONTINUE';
+					document.getElementById('skipButton').disabled = false;
 				}
 			}
-			else {
+			else {	// if timer is paused
 				document.getElementById('pauseButton').disabled = true;
 				document.getElementById('multiButton').disabled = false;
 				document.getElementById('multiButton').value = 'CONTINUE';
+				document.getElementById('skipButton').disabled = false;
 			}
+		}
+
+		function skipButtonFunction () {
+			getTimerNumbers();	
+			if (flagStudyBreak == 1) {	// if it was studyTime
+				flagStudyBreak = 2;	// now it is breakTime
+				previousFlag = 1;
+			}
+			else if (flagStudyBreak == 2) {	// if it was breakTime
+				flagStudyBreak = 1;	// now it is studyTime
+				previousFlag = 2;
+			}
+			else {	// if it was paused, or if you just loaded the page (flagStudyBreak == 0)
+				if (previousFlag == 2) {	// if before pause it was breakTime
+					flagStudyBreak = 1;
+					previousFlag = 1;	// i know it is weird but it works
+					console.log('previousFlag was 2')
+				}
+				else {	// if before pause was studyTime or page just loaded
+					flagStudyBreak = 2;
+					console.log('previousFlag was 0/1')
+					previousFlag = 2;	// i know it is weird but it works
+				}
+			}
+
+			// new flagStudyBreak
+			if (flagStudyBreak == 2) {
+				remainingTime = Math.floor(Break);
+				document.getElementById('remainingSession').innerHTML = 'break';
+			}
+			else {
+				remainingTime = Math.floor(study);
+				document.getElementById('remainingSession').innerHTML = 'study';
+			}
+			checkRemainingTime();
+			console.log('previous: ', previousFlag)
+			console.log('current: ', flagStudyBreak)
 		}
 
 		function getTimerNumbers () {
@@ -303,7 +349,7 @@ window.addEventListener("keyup", function(event) {
 			Break = 0;
 			durationBreak = 0;
 			durationStudy = 0;
-			flagStudyBreak = 4;	// 0 = paused, 1 = studyTime, 2 = BreakTime
+			flagStudyBreak = 0;	// 0 = paused, 1 = studyTime, 2 = BreakTime
 			previousFlag = 0;
 			pomodoroCounter = 0;
 			//paused = 0;
@@ -316,8 +362,9 @@ window.addEventListener("keyup", function(event) {
 			document.getElementById("durationStudy").innerHTML = "00:00:00";
 			document.getElementById("durationBreak").innerHTML = "00:00:00";
 			document.getElementById('multiButton').value = 'START';
-			document.getElementById('pauseButton').disabled = false;
+			document.getElementById('pauseButton').disabled = true;
 			document.getElementById('multiButton').disabled = false;
+			document.getElementById('skipButton').disabled = false;
 			show();
 		}
 
