@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset='utf=8'>		<!-- Encoding za sumnike? -->
+	<title>Pomodoro</title>		<!-- Na tabu kaze ime taba -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="/icon.png">		<!-- icon shown on tab -->
+
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel='stylesheet' tyle='text/css' href='/css.css'>		<!-- calling external css file -->
+
+	<style>
+		#toggleButton {
+			border: none;
+			border-radius: 0px 10px 0px 0px;
+			background-color: #bababa;
+			width: 70px;
+			height: 30px;
+			position: fixed;
+			bottom: 0;
+			left: 0;
+		}
+		#madeBy {
+			position: fixed;
+			bottom: 5px;
+			right: 10px;
+		}
+		#remainingTime {
+			color: #e5e5e5;
+		}
+		h1 {
+			font-size: 40px;
+		}
+		td {
+			width: 150px;
+		}
+		/*.container-fluid {
+			min-width: 100%;
+		}*/
+	</style>
+</head>
+
+<body>
+	<div class="pageWrapper">
+		<div w3-include-html="/nav.html"></div>
+
+			<div id="main" class="container toggle">
+			<br>
+			<div class="row">
+				<div class="col col-md-6 col-lg-5">
+					<h1 class="text-center">Pomodoro</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-6 col-lg-5">
+					<hr>
+					<h5>Study: <input type="number" id='study' value="25" min="0" onmouseup="refreshTimes(event)"></h5>
+					<h5>Break: <input type="number" id='break' value="5" min="0" onmouseup="refreshTimes(event)"></h5>
+					<input type="button" id="multiButton" value="START" class="btn btn-primary">
+					<input type="button" id="pauseButton" value="PAUSE" class="btn btn-primary" disabled>
+					<input type="button" id="skipButton" value="SKIP" class="btn btn-primary">
+					<input type="button" id='resetButton' value='RESET' class="btn btn-primary">
+					<br>
+					<table>
+						<tr>
+							<td>
+								Toggle mode: <input type="checkbox" id="toggleCheckbox" checked>
+							</td>
+							<td>
+								Blink screen: <input type="checkbox" id="blinkScreenCheckbox" checked>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Sound: <input type="checkbox" id="soundCheckbox" checked>
+							</td>
+							<td>
+								Hide cursor: <input type="checkbox" id="cursorCheckbox">
+							</td>
+						</tr>
+					</table>
+					<!--<table>
+						<tr>
+							<td>
+								Toggle mode: <input type="checkbox" id="toggleCheckbox">
+							</td>
+							<td>
+								Blink screen: <input type="checkbox" id="blinkScreenCheckbox">
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Sound: <input type="checkbox" id="soundCheckbox">
+							</td>
+							<td>
+								Hide cursor: <input type="checkbox" id="cursorCheckbox">
+							</td>
+						</tr>
+					</table>-->
+				</div>
+				<div class="col-md-6 col-lg-5">
+					<hr>
+					<h4>Info</h4>
+					<h5>Remaining <span id='remainingSession'>study</span>: <span id="remainingTime">00:25:00</span></h5>
+					<h5>Finished pomodoro sessions: <small><span id='pomodoroCounter'>0</span></small></h5>
+					<h5>Total time: <small><span id='durationTotal'>00:00:00</span></small></h5>
+					<h5>Study time: <small><span id='durationStudy'>00:00:00</span></small></h5>
+					<h5>Break time: <small><span id="durationBreak">00:00:00</span></small></h5>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-6 col-lg-5">
+					<hr>
+					<h4>Do not be scared</h4>
+					<ul>
+						<li>
+							When you enter study mode:
+							<ol>
+								<li>Screen will go black.</li>
+								<li>Cursor will hide (if you check the Hide cursor checkbox) when screen is black.
+							</ol>
+						</li>
+						<li>When session/break ends screen will blink and speaker will beep.</li>
+					</ul>
+				</div>
+
+				<div class="col-md-6 col-lg-5">
+					<hr>
+					<h4>Instructions</h4>
+					<ul>
+						<li>Press <kbd>SPACE</kbd> to start/pause/continue timer, it is like a multi button.</li>
+						<li>Pressing <kbd>T</kbd> or <kbd>ESC</kbd> will toggle screen.</li>
+						<li>Pressing <kbd>C</kbd> will toggle cursor checkbox.</li>
+						<li>Press <kbd>R</kbd> to reset everything, except finished sessions.</li>
+						<li>Press <kbd>P</kbd> to pause timer.</li>
+						<li>By pressing <kbd>F11</kbd> browser will enter full screen mode.</li>
+						<li>Press <kbd>S</kbd> to skip current session and start next one (from study to break or other way around).</li>
+					</ul>
+				</div>
+
+			</div>
+			<br> <!-- because toggle button would cover text when on narrow screen -->
+		</div>
+
+		<button id="toggleButton" class="cursor-pointer">Toggle</button>
+		<small><span id='madeBy' class="text-muted">© Bzgec 2017</span></small>
+
+	</div>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!--	<script src='./jqueryLibrary.js'></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+	<script src="./jsPomodoroTimer.js"></script>
+</body>
+
+<script>
+	function w3IncludeHTML() {
+		var z, i, elmnt, file, xhttp;
+		z = document.getElementsByTagName("*");
+		for (i = 0; i < z.length; i++) {
+			elmnt = z[i];
+			file = elmnt.getAttribute("w3-include-html");
+			if (file) {
+				xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+						if (this.status == 404) {elmnt.innerHTML = "Page not found.";}						
+						
+
+						//console.log(file)
+						if ( elmnt.getAttribute("w3-include-html") == '/nav.html') {	// otherwise it would not change data on page... 
+							document.getElementById('navPomodoroTimer').classList.add('active');	// to color the active page on navigation bar
+						}
+
+						elmnt.removeAttribute("w3-include-html");
+						w3IncludeHTML();
+					}
+				}
+				xhttp.open("GET", file, true);
+				xhttp.send();
+				return;
+			}
+		}
+	}
+	w3IncludeHTML();
+</script>
+</html>
