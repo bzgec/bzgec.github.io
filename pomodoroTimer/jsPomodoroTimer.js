@@ -52,7 +52,7 @@ window.addEventListener("keyup", function(event) {
 			else if (keyCode == 83) {	// S
 				skipButtonFunction();
 			}
-		});
+});
 
 
 		document.getElementById('resetButton').onclick = function() {
@@ -110,7 +110,6 @@ window.addEventListener("keyup", function(event) {
 		var remainingTime = Math.floor( study );	// in case the value is like 0.08
 		checkRemainingTime();	// checks
 		var displayStatus = "visible";
-
 
 		function timedCount() {
 			//console.log(remainingTime)
@@ -183,6 +182,8 @@ window.addEventListener("keyup", function(event) {
 			}
 
 			buttons();
+
+			displayTitleTime();
 
 			t = setTimeout(function(){ timedCount() }, 200);
 		}
@@ -335,6 +336,7 @@ window.addEventListener("keyup", function(event) {
 			checkRemainingTime();
 			console.log('previous: ', previousFlag)
 			console.log('current: ', flagStudyBreak)
+			displayTitleTime();
 		}
 
 		function getTimerNumbers () {
@@ -353,6 +355,7 @@ window.addEventListener("keyup", function(event) {
 			sStudy = 0;
 			sBreak = 0;
 			clearTimeout(t);
+			document.title = 'Pomodoro';
 			timer_is_on = 0;
 			study = 0;
 			Break = 0;
@@ -375,6 +378,12 @@ window.addEventListener("keyup", function(event) {
 			document.getElementById('multiButton').disabled = false;
 			document.getElementById('skipButton').disabled = false;
 			show();
+		}
+
+		function displayTitleTime () {
+			var titleTime = convertToNormalTimeForm(remainingTime);
+			titleTime = titleTime.substring(titleTime.indexOf(':')+1, titleTime.length)
+			document.title = '(' + titleTime + ') Pomodoro';
 		}
 
 		function show () {
