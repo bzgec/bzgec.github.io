@@ -1,3 +1,8 @@
+window.addEventListener('keydown', function(event) {
+	if(event.keyCode == 32 && event.target == document.body) {	// 32 is SPACE
+		event.preventDefault();	// to prevent SPACE bar from scrolling the page
+	}
+});
 window.addEventListener("keyup", function(event) {
 		var keyCode = event.keyCode;
 		console.log(keyCode)
