@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset='utf=8'>		<!-- Encoding za sumnike? -->
+	<title>Sudoku</title>		<!-- Na tabu kaze ime taba -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="/icon.png">		<!-- icon shown on tab -->
+
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel='stylesheet' tyle='text/css' href='/css.css'>		<!-- calling external css file -->
+
+	<style>
+		table{border-collapse:collapse; margin-left:auto; margin-right:auto; border: 3px solid black}
+		td{text-align:center; border: 1px solid black; min-width:30px; min-height:30px width:30px; height:30px}
+		td.sudoku:nth-child(1){border-left-width:3px;}
+		tr.sudoku:nth-child(1){border-top: solid black 3px;}
+		td.sudoku:nth-child(3n+3){border-right-width:3px;}
+		tr.sudoku:nth-child(3n+3){border-bottom: solid black 3px;}
+		td.barvi{background-color: #555}
+		td.hint{background-color: #777}
+		.btn {
+			color: #dbdbdb;	/* writing */
+		}
+		.hideWhen {
+			display: none;
+		}
+		@media(min-width: 600px) {
+			.hideWhen {
+				display: block;
+			}
+		}
+		.spacing {
+			margin-left: 8px;
+		}
+		input[type="button"].separate:nth-child(2n) {
+			border-left: collapse;
+			border-left-color: #313338;
+		}
+		input[type="button"].separate:nth-child(2n+1) {
+			border-right: collapse;
+			border-right-color: #313338;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="pageWrapper">
+		<div w3-include-html="/nav.html"></div>
+
+		<div class='container'>
+			<br>
+			<div class="row justify-content-center">
+				<div class="col">
+					<h1 class="text-center">Sudoku</h1>
+					<hr>
+				</div>
+			</div>
+
+			<div class="row  justify-content-center">
+				<div class="col col-sm-1 col-md-2 col-lg-3 hideWhen">
+				</div>
+				<div class="col make-col">
+					<div class="btn-toolbar spacing" role="toolbar" aria-label="Toolbar with button groups">
+						<div class="btn-group mx-auto" role="group" aria-label="first grup">
+							<input type="button" id='drawSudoku' value="Draw Sudoku" class="btn btn-sm btn-secondary cursor-pointer">
+						</div>	
+
+						<div class="btn-group spacing mx-auto" role="group" aria-label="second grup">
+							<input type="button" id='resetSudoku' value="Reset" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide separate">
+							<input type="button" id='checkSudoku' value="Check" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide separate">
+						</div>	
+
+						<div class="btn-group spacing mx-auto" role="group" aria-label="third grup">
+							<input type="button" id='helpMode' value="Helping Mode" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide">
+						</div>
+					</div>
+				</div>
+				<div class="col col-sm-1 col-md-2 col-lg-3 hideWhen">
+				</div>
+
+					
+			</div>
+
+					
+				<!--<div class="col col-1 col-md-2 col-lg-3 hideWhen">
+				</div>
+				<div class="col col-4 col-md-2">
+					<input type="button" id='drawSudoku' value="Draw Sudoku" class="btn btn-sm btn-secondary cursor-pointer">
+				</div>
+				<div class="col col-2 col-md-1">
+					<input type="button" id='resetSudoku' value="Reset" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide">
+				</div>
+				<div class="col col-2 col-md-1">
+					<input type="button" id='checkSudoku' value="Check" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide">
+				</div>
+				<div class="col col-4 col-md-2">
+					<input type="button" id='helpMode' value="Helping Mode" class="btn btn-sm btn-secondary cursor-pointer showWhenSudoku hide">
+				</div>
+				<div class="col col-1 col-md-2 col-lg-3 hideWhen">
+				</div>-->
+
+				
+			
+			<br>
+
+			<div class="row">
+				<div class="col">
+					<div id="sudokuTable"></div>
+					<div id="hintsDiv" class="toggle" style='display:none;'></div>
+					<div id="defaultHintsDiv"  class='toggle' style='display:block;'></div>
+				</div>
+			</div>
+
+			<div class="row">
+				<br>
+				<div class="col text-center">
+					<div id="result"></div>
+				</div>
+			</div>
+
+			<div class='row justify-content-center'>
+				<div class="col-md-6 col-lg-5">
+					<h5>Help</h5>
+					<p>To input number you can either press button on screen or press it on keyboard</p>
+					<h5>Helping mode</h5>
+					<p>It shows which number can go in chosen place.</p>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!--	<script src='./jqueryLibrary.js'></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+	<script src='./sudokuArraysJS.js'></script>
+	<script src="./sudokuJS.js"></script>
+</body>
+
+<script>
+	function w3IncludeHTML() {
+		var z, i, elmnt, file, xhttp;
+		z = document.getElementsByTagName("*");
+		for (i = 0; i < z.length; i++) {
+			elmnt = z[i];
+			file = elmnt.getAttribute("w3-include-html");
+			if (file) {
+				xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+						if (this.status == 404) {elmnt.innerHTML = "Page not found.";}						
+						
+
+						//console.log(file)
+						if ( elmnt.getAttribute("w3-include-html") == '/nav.html') {	// otherwise it would not change data on page... 
+							document.getElementById('navSudoku').classList.add('active');	// to color the active page on navigation bar
+						}
+
+						elmnt.removeAttribute("w3-include-html");
+						w3IncludeHTML();
+					}
+				}
+				xhttp.open("GET", file, true);
+				xhttp.send();
+				return;
+			}
+		}
+	}
+	w3IncludeHTML();
+</script>
+</html>
