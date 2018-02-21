@@ -25,10 +25,14 @@ window.addEventListener("keyup", function(event) {
 						stopCount();
 						buttons();
 					}
+					event.preventDefault(); // to prevent from toggling selected checkbox
 				}
 				else {
 					startCount();
 				}
+				//if ( event.target == document.body) {
+					event.preventDefault();
+					//}
 				//toggle();
 			}
 			else if (keyCode == 67) {	// C
