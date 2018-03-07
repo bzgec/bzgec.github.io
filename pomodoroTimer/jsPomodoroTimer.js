@@ -96,7 +96,7 @@ window.addEventListener("keyup", function(event) {
 		var timer_is_on = 0;
 		var study = 0;
 		var Break = 0;
-		var flagStudyBreak = 0;	// 0 = paused, 1 = studyTime, 2 = breakTime, 4 = pageLoadaed
+		var flagStudyBreak = 0;	// 0 = paused, 1 = studyTime, 2 = breakTime, (was used onec - 4 = pageLoadaed)
 		var previousFlag = 0;
 		var pomodoroCounter = 0;
 		var durationBreak = 0;
@@ -108,7 +108,7 @@ window.addEventListener("keyup", function(event) {
 		refreshTimes(); // updates study and break values(getTimerNumber()) and refreshes displayed remaining time
 		document.getElementById('remainingSession').innerHTML = 'study';
 		var remainingTime = Math.floor( study );	// in case the value is like 0.08
-		checkRemainingTime();	// checks
+		printRemainingTime();	
 		var displayStatus = "visible";
 
 		function timedCount() {
@@ -118,11 +118,6 @@ window.addEventListener("keyup", function(event) {
 			if (previousSec != currentSec) {
 				c++;
 				durations();
-				//if (c != 1) {
-					if (remainingTime >= 0) {
-						checkRemainingTime();
-					}
-				//}
 				previousSec = currentSec;
 			}
 
@@ -150,7 +145,7 @@ window.addEventListener("keyup", function(event) {
 				document.getElementById('remainingSession').innerHTML = 'break';
 				getTimerNumbers();
 				remainingTime = Math.floor(Break);
-				checkRemainingTime();
+				printRemainingTime();
 				console.log('end: ' + end);
 			}
 			else if (c >= Break && flagStudyBreak == 2 && end == 'counting') {
@@ -177,13 +172,11 @@ window.addEventListener("keyup", function(event) {
 				document.getElementById('remainingSession').innerHTML = 'study';
 				getTimerNumbers();
 				remainingTime = Math.floor(study);
-				checkRemainingTime();
+				printRemainingTime();
 				console.log('end: ' + end);
 			}
 
 			buttons();
-
-			displayTitleTime();
 
 			t = setTimeout(function(){ timedCount() }, 200);
 		}
@@ -194,7 +187,7 @@ window.addEventListener("keyup", function(event) {
 			/*if (flagStudyBreak != 0) { // 0 = paused
 				remainingTime = Math.floor( study );	// in case the value is like 0.08
 			}*/
-			//checkRemainingTime();	// checks
+			//printRemainingTime();	// checks
 			if (!timer_is_on) {
 				if (document.getElementById('toggleCheckbox').checked == true) {
 					hide();
@@ -210,6 +203,7 @@ window.addEventListener("keyup", function(event) {
 					if (helper == 2) flagStudyBreak = 2; // if before pause there was breakTime
 					else flagStudyBreak = 1;	// if before pause there was studyTime
 				}
+				printRemainingTime();	// it is here so that when timer is started it show time on tab (title) immediately
 				console.log('previousFlag: ' + previousFlag);
 				console.log('currentFlag: ' + flagStudyBreak);
 				//setTimeout(function(){ timedCount() }, 900);
@@ -244,31 +238,36 @@ window.addEventListener("keyup", function(event) {
 			}
 		}
 
-		function checkRemainingTime () {
-			document.getElementById('remainingTime').innerHTML = convertToNormalTimeForm(remainingTime);
-		}
-
 		function durations () {
-			remainingTime--;
-			s++;
-			if (flagStudyBreak == 1) sStudy++;
-			else if (flagStudyBreak == 2) sBreak++;
-			//console.log(s)
-			document.getElementById("durationTotal").innerHTML = convertToNormalTimeForm(s);
-			document.getElementById("durationStudy").innerHTML = convertToNormalTimeForm(sStudy);
-			document.getElementById("durationBreak").innerHTML = convertToNormalTimeForm(sBreak);
+			if (remainingTime > 0) {
+				remainingTime--;
+				printRemainingTime();
+			}
 
+			s++;
+			document.getElementById("durationTotal").innerHTML = convertToNormalTimeForm(s);
+			
+			if (flagStudyBreak == 1) {
+				sStudy++;
+				document.getElementById("durationStudy").innerHTML = convertToNormalTimeForm(sStudy);
+			}
+			else if (flagStudyBreak == 2) {
+				sBreak++;
+				document.getElementById("durationBreak").innerHTML = convertToNormalTimeForm(sBreak);
+			}
 		}
 
-		function convertToNormalTimeForm (sec) {
-			var hr = 0;
-			var min = 0;
+		function printRemainingTime () {
+			var remainingTimeLocalVar = convertToNormalTimeForm(remainingTime);
+			document.getElementById('remainingTime').innerHTML = remainingTimeLocalVar;
 
-			hr = Math.floor(sec/3600);
-			sec %= 3600
-			min = Math.floor(sec/60);
-			sec = sec % 60;
-			return checkTime(hr) + ":" + checkTime(min) + ':' + checkTime(sec);
+			if (flagStudyBreak != 0) {
+				remainingTimeLocalVar = remainingTimeLocalVar.substring(remainingTimeLocalVar.indexOf(':')+1, remainingTimeLocalVar.length);
+				document.title = '(' + remainingTimeLocalVar + ') Pomodoro';
+			}
+			else {
+				document.title = 'Pomodoro';
+			}
 		}
 
 		function checkTime(i) {
@@ -333,10 +332,9 @@ window.addEventListener("keyup", function(event) {
 				remainingTime = Math.floor(study);
 				document.getElementById('remainingSession').innerHTML = 'study';
 			}
-			checkRemainingTime();
+			printRemainingTime();
 			console.log('previous: ', previousFlag)
 			console.log('current: ', flagStudyBreak)
-			displayTitleTime();
 		}
 
 		function getTimerNumbers () {
@@ -367,7 +365,7 @@ window.addEventListener("keyup", function(event) {
 			//paused = 0;
 			//getTimerNumbers();
 			//remainingTime = Math.floor( study );
-			//checkRemainingTime();
+			//printRemainingTime();
 			refreshTimes();
 			document.getElementById('remainingSession').innerHTML = 'study';
 			document.getElementById("durationTotal").innerHTML = "00:00:00";
@@ -380,10 +378,15 @@ window.addEventListener("keyup", function(event) {
 			show();
 		}
 
-		function displayTitleTime () {
-			var titleTime = convertToNormalTimeForm(remainingTime);
-			titleTime = titleTime.substring(titleTime.indexOf(':')+1, titleTime.length)
-			document.title = '(' + titleTime + ') Pomodoro';
+		function convertToNormalTimeForm (sec) {
+			var hr = 0;
+			var min = 0;
+
+			hr = Math.floor(sec/3600);
+			sec %= 3600
+			min = Math.floor(sec/60);
+			sec = sec % 60;
+			return checkTime(hr) + ":" + checkTime(min) + ':' + checkTime(sec);
 		}
 
 		function show () {
