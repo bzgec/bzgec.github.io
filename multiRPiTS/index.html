@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset='utf=8'>		<!-- Encoding za sumnike? -->
+	<title>multiRPiTS</title>		<!-- Na tabu kaze ime taba -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="icon" href="/icon.png">		<!-- icon shown on tab -->
+
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+	<link rel='stylesheet' tyle='text/css' href='/css.css'>		<!-- calling external css file -->
+
+	<style>
+		/* input speical style for this page */
+	</style>
+</head>
+
+<body>
+	<div class="pageWrapper">
+		<div w3-include-html="/nav.html"></div>
+
+		<div class="container">
+			<br>
+			
+			<div class="row">
+				<div class="col">
+					<hr>
+					<h2>
+						multiRPiTS - multifunction script for Raspberry Pi with ThingSpeak
+					</h2>
+					<ul>
+						<li>
+							PID-fan-controller (fan speed dependent on CPU temperature)
+						</li>
+						<li>
+							measuring room temperature and humidity
+						</li>
+						<li>
+							displaying data on OLED display (SSD1306 128x64 screen with I2C)
+						</li>
+						<li>
+							uploading data to <a href="https://thingspeak.com/channels/342779">Thing Speak</a> (average CPU temperature, average fan speed, current temperature and humidity of the room in which the Raspberry Pi is located
+						</li>
+					</ul>
+				</div>
+				
+				<div class="col-3">
+					<img src="/multiRPiTS/pictures/all.jpg" alt="All" width="250">
+				</div>
+				<div class="col-2">
+					<img src="/multiRPiTS/pictures/display.jpg" alt="display" width="200">
+				</div>	
+				
+			</div>
+
+			
+			<div class="row">
+				<div class="col">
+					<hr>
+					<h4>
+						DHT22
+					</h4>
+					<p>
+						Follow this instrucions for DHT22 sensor (step 7): <a href="http://www.instructables.com/id/Raspberry-PI-and-DHT22-temperature-and-humidity-lo/">link</a>
+					</p>
+				</div>
+
+				<div class="col">
+					<hr>
+					<h4>
+						SSD1306 display
+					</h4>
+					<p>
+						Follow this instructions to install everything that SSD1306 display needs to work with my code: 
+						<ul>
+							<li>
+								<a href="https://learn.adafruit.com/ssd1306-oled-displays-with-raspberry-pi-and-beaglebone-black/wiring">wiring</a>
+							</li>
+							<li>
+								<a href="https://learn.adafruit.com/ssd1306-oled-displays-with-raspberry-pi-and-beaglebone-black/usage">usage</a>
+							</li>
+						</ul>
+
+						Also enable automatic loading of I2C kernel module: <a href="https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c">link</a>
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<hr>
+					<h4>
+						Changes that you need to make
+					</h4>
+					<p>
+						If you are going to use this code, change PIDs that will suit your needs (PIDs.p, PIDs.i, PIDs.d). Change pins of Raspberry Pi that will suit you best. This code is ment to start on boot and run indefinitely (to start it on boot <a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/">link</a>).
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<hr>
+					<h4>
+						Inspired by
+					</h4>
+					<p>
+						This code was initially inspired by Andreas Spiess and his <a href="https://www.youtube.com/channel/UCu7_D0o48KbfhpEohoP7YSQ">YouTube channel</a>. His two videos were the base for this code (<a href="https://youtu.be/P5o0PpfzuW8?list=PL3XBzmAj53RnezxZ_uq8YMymURnnLTqZP">Youtube link 1</a> and <a href="https://youtu.be/oJ32CMxliCQ?list=PL3XBzmAj53RnezxZ_uq8YMymURnnLTqZP">Youtube link 2</a>).
+					</p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col">
+					<hr>
+					<h5>
+						If you have any suggestions please let me know.
+					</h5>
+				</div>
+			</div>
+
+			</div>
+			<br>	
+		</div>
+
+	</div>	<!-- end of pageWrapper -->
+
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<!--	<script src='./jqueryLibrary.js'></script>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+	<!-- <script src="./xxxxx.js"></script> -->
+	<script type="text/javascript">
+	
+	</script>
+</body>
+
+<script>
+	function w3IncludeHTML() {
+		var z, i, elmnt, file, xhttp;
+		z = document.getElementsByTagName("*");
+		for (i = 0; i < z.length; i++) {
+			elmnt = z[i];
+			file = elmnt.getAttribute("w3-include-html");
+			if (file) {
+				xhttp = new XMLHttpRequest();
+				xhttp.onreadystatechange = function() {
+					if (this.readyState == 4 && this.status == 200) {
+						if (this.status == 200) {elmnt.innerHTML = this.responseText;}
+						if (this.status == 404) {elmnt.innerHTML = "Page not found.";}						
+						
+
+						//console.log(file)
+						if ( elmnt.getAttribute("w3-include-html") == '/nav.html') {	// otherwise it would not change data on page... 
+							document.getElementById('navMultiRPiTS').classList.add('active');	// to color the active page on navigation bar
+						}
+
+						elmnt.removeAttribute("w3-include-html");
+						w3IncludeHTML();
+					}
+				}
+				xhttp.open("GET", file, true);
+				xhttp.send();
+				return;
+			}
+		}
+	}
+	w3IncludeHTML();
+</script>
+</html>
