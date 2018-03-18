@@ -9,6 +9,16 @@ body {
 .bg-nav {
 	background-color: #2C3034;
 }
+.bg-nav-dropdown {
+	background-color: #4a4f56;
+}
+.dropdown-item-colorFix {
+	color: #aaaaaa;
+}
+.dropdown-item-colorFix:hover {
+	color: #cacbcc;
+	background-color: #4a4f56;
+}
 .cursor-pointer {
 	cursor: pointer;
 }
@@ -32,6 +42,9 @@ body {
 }
 .smaller-65 {
 	font-size: 65%;
+}
+.minWidth-350 {
+	min-width: 350px;
 }
 input[type=number] {
 	bottom: 100px;
