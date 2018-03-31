@@ -28,7 +28,7 @@
 				<div class="col">
 					<hr>
 					<h2>
-						multiRPiTS - multifunction script for Raspberry Pi with ThingSpeak support
+						multiRPiTS.py - multifunction script for Raspberry Pi with ThingSpeak support
 					</h2>
 					<ul>
 						<li>
@@ -46,7 +46,8 @@
 					</ul>
 
 					<hr>
-					<h4><a href="https://github.com/bzgec/multiRPiTS/blob/master/multiRPiTS.py" target="_blank">LINK TO CODE</a></h4>
+					<h4><a href="https://github.com/bzgec/multiRPiTS/blob/master/multiRPiTS.py" target="_blank">LINK TO multiRPiTS.py</a></h4>
+					<h4><a href="https://github.com/bzgec/multiRPiTS/blob/master/runChecker.py" target="_blank">LINK TO runChecker.py</a></h4>
 				</div>
 				
 				<div class="col-3">
@@ -63,10 +64,21 @@
 				<div class="col">
 					<hr>
 					<h4>
+						runChecker.py
+					</h4>
+					<p>
+						Script that checks if multiRPiTS is running every minute, if it is not running it will start it.
+						Start this program when Raspberry Pi boots (<a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>).
+					</p>
+				</div>
+
+				<div class="col">
+					<hr>
+					<h4>
 						DHT22
 					</h4>
 					<p>
-						Follow this instrucions for DHT22 sensor (step 7): <a href="http://www.instructables.com/id/Raspberry-PI-and-DHT22-temperature-and-humidity-lo/" target="_blank">link</a>
+						Follow this instrucions for DHT22 sensor (step 7 <a href="http://www.instructables.com/id/Raspberry-PI-and-DHT22-temperature-and-humidity-lo/" target="_blank">link</a>). 
 					</p>
 				</div>
 
@@ -86,7 +98,7 @@
 							</li>
 						</ul>
 
-						Also enable automatic loading of I2C kernel module: <a href="https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c" target="_blank">link</a>
+						Also enable automatic loading of I2C kernel module (<a href="https://learn.adafruit.com/adafruits-raspberry-pi-lesson-4-gpio-setup/configuring-i2c" target="_blank">link</a>).
 					</p>
 				</div>
 			</div>
@@ -108,7 +120,9 @@
 							Change pins of Raspberry Pi that will suit you best.
 						</li>
 						<li>
-							This code is ment to start on boot and run indefinitely (to start it on boot <a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>).
+							In "runChecker.py" change location where your "multiRPiTS.py" is.
+						<li>
+							The runChecker.py is ment to start on boot and run indefinitely (to start it on boot <a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>).
 						</li>
 					</ul>
 				</div>
