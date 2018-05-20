@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset='utf=8'>		<!-- Encoding za sumnike? -->
-	<title>multi</title>		<!-- Na tabu kaze ime taba -->
+	<title>multiRPiTS</title>		<!-- Na tabu kaze ime taba -->
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="icon" href="/icon.png">		<!-- icon shown on tab -->
@@ -28,8 +28,11 @@
 				<div class="col">
 					<hr>
 					<h2>
-						multi.py - multifunction script for Raspberry Pi with ThingSpeak
+						multiRPiTS - multifunction script for Raspberry Pi with ThingSpeak support
 					</h2>
+					<p>
+						This site and github repository currently do not describe code very well and code is not really tidy, but with some minimal tweaks you can use it.
+					</p>
 					<ul>
 						<li>
 							PID-fan-controller (fan speed dependent on CPU temperature)
@@ -41,10 +44,10 @@
 							displaying data on OLED display (SSD1306 128x64 screen with I2C)
 						</li>
 						<li>
-							uploading data to <a href="https://thingspeak.com/channels/342779" target="_blank">Thing Speak</a> (average CPU temperature fan speed, temperature and humidity of the room in which the Raspberry Pi is located
+							uploading data to <a href="https://thingspeak.com/channels/342779" target="_blank">Thing Speak</a> (average CPU temperature, average fan speed, current temperature and humidity of the room in which the Raspberry Pi is located
 						</li>
 						<li>
-							logging data when temperature and humidity are measured and when data is uploaded to ThingSpeak
+							sending mail if some error occurs (for now it is set that mailSender.py script must be located in /home/pi/scripts/ folder... I am going to change that)
 						</li>
 						<li>
 							writing current values to file, so they can be used by some other program
@@ -52,8 +55,7 @@
 					</ul>
 
 					<hr>
-					<h4><a href="https://github.com/bzgec/multiRPiTS/blob/master/multiRPiTS.py" target="_blank">LINK TO multi.py</a></h4>
-					<h4><a href="https://github.com/bzgec/multiRPiTS/blob/master/runChecker.py" target="_blank">LINK TO runChecker.py</a></h4>
+					<h4><a href="https://github.com/bzgec/multiRPiTS" target="_blank">LINK TO repository</a></h4>
 				</div>
 				
 				<div class="col-3">
@@ -69,13 +71,15 @@
 			<div class="row">
 				<div class="col">
 					<hr>
+					<del>
 					<h4>
 						runChecker.py
 					</h4>
 					<p>
-						Script that checks if multi.py is running every minute, if it is not running it will start it.
-						Start this program when Raspberry Pi boots (<a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>). It loggs when this script starts and if multi.py is not running.
+						Script that checks if multiRPiTS is running every minute, if it is not running it will start it.
+						Start this program when Raspberry Pi boots (<a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>).
 					</p>
+					</del>
 				</div>
 
 				<div class="col">
@@ -126,9 +130,12 @@
 							Change pins of Raspberry Pi that will suit you best.
 						</li>
 						<li>
-							In "runChecker.py" change location where your "multi.py" is.
+							This code is ment to start on boot and run indefinitely (to start it on boot <a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>).
+						</li>
 						<li>
-							The runChecker.py is ment to start on boot and run indefinitely (to start it on boot <a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>).
+							<del>In "runChecker.py" change location where your "multiRPiTS.py" is.</del>
+						<li>
+							<del>The runChecker.py is ment to start on boot and run indefinitely (to start it on boot <a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>).</del>
 						</li>
 					</ul>
 				</div>
