@@ -98,6 +98,8 @@
 						SSD1306 display
 					</h4>
 					<p>
+						Be careful with OLED display burn-in!
+						<br>
 						Follow this instructions to install everything that SSD1306 display needs to work with my code: 
 						<ul>
 							<li>
@@ -119,7 +121,24 @@
 					<h4>
 						Changes that you need to make
 					</h4>
+					<h5>
+						Raspberry Pi
+					</h5>
 					<ul>
+						<li>
+							This code is ment to start on boot and run indefinitely (to start it on boot https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/).
+						</li>
+					</ul>
+					<h5>
+						multiProc/variablesConfig.py
+					</h5>
+					<ul>
+						<li>
+							Change paths to files.
+						</li>
+						<li>
+							Change email address
+						</li>
 						<li>
 							Change the thingSpeak "Write API Key" (thingSpeak_WRITE_API_KEY).
 						</li>
@@ -129,13 +148,13 @@
 						<li>
 							Change pins of Raspberry Pi that will suit you best.
 						</li>
+					</ul>
+					<h5>
+						mailSender/mailConfig.py
+					</h5>
+					<ul>
 						<li>
-							This code is ment to start on boot and run indefinitely (to start it on boot <a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>).
-						</li>
-						<li>
-							<del>In "runChecker.py" change location where your "multiRPiTS.py" is.</del>
-						<li>
-							<del>The runChecker.py is ment to start on boot and run indefinitely (to start it on boot <a href="https://www.dexterindustries.com/howto/run-a-program-on-your-raspberry-pi-at-startup/" target="_blank">link</a>).</del>
+							Change FROM_EMAIL_ADDRESS and PASSWORD to gmail from which you want to send mails.
 						</li>
 					</ul>
 				</div>
